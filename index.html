@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Delivery Tracker</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #eef1f6; color: #1a1d23; padding-bottom: 40px;
+  }
+  header {
+    background: linear-gradient(135deg, #4338ca, #6d28d9);
+    color: #fff; padding: 22px 20px 26px; border-radius: 0 0 24px 24px;
+  }
+  header h1 { margin: 0; font-size: 22px; letter-spacing: .3px; }
+  header .date { opacity: .85; font-size: 14px; margin-top: 4px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.25);
+    padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #9ca3af; }
+  .dot.ok { background: #34d399; } .dot.bad { background: #f87171; } .dot.busy { background: #fbbf24; }
+  main { max-width: 540px; margin: -14px auto 0; padding: 0 14px; }
+  .card {
+    background: #fff; border-radius: 18px; padding: 18px; margin-top: 14px;
+    box-shadow: 0 2px 10px rgba(20,20,40,.06);
+  }
+  .card h2 { margin: 0 0 12px; font-size: 15px; text-transform: uppercase; letter-spacing: .8px; color: #6b7280; }
+  #reachBtn {
+    width: 100%; border: 0; border-radius: 16px; padding: 20px; font-size: 20px; font-weight: 800;
+    color: #fff; background: linear-gradient(135deg, #4338ca, #6d28d9); cursor: pointer;
+    box-shadow: 0 6px 18px rgba(67,56,202,.35);
+  }
+  #reachBtn:active { transform: scale(.98); }
+  #reachBtn:disabled { opacity: .6; }
+  .sub { text-align: center; font-size: 13px; color: #6b7280; margin-top: 10px; }
+  .sub button { background: none; border: 0; color: #4338ca; font-weight: 700; font-size: 13px; cursor: pointer; padding: 6px; }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #4b5563; margin: 10px 0 6px; }
+  input, textarea {
+    width: 100%; border: 1.5px solid #dfe3ea; border-radius: 12px; padding: 12px;
+    font-size: 16px; font-family: inherit; background: #fbfcfe;
+  }
+  input:focus, textarea:focus { outline: none; border-color: #4338ca; background: #fff; }
+  .stats { display: flex; gap: 10px; }
+  .stat { flex: 1; background: #f4f3ff; border-radius: 14px; padding: 14px; text-align: center; }
+  .stat .n { font-size: 26px; font-weight: 800; color: #4338ca; }
+  .stat .l { font-size: 12px; color: #6b7280; margin-top: 2px; }
+  .stop {
+    border: 1.5px solid #eceef3; border-radius: 14px; padding: 12px 14px; margin-top: 10px;
+    display: flex; justify-content: space-between; gap: 10px; align-items: flex-start;
+  }
+  .stop .t { font-size: 12px; color: #6b7280; font-weight: 600; }
+  .stop .name { font-weight: 700; font-size: 16px; margin-top: 2px; }
+  .stop .addr { font-size: 13px; color: #4b5563; margin-top: 2px; }
+  .stop .meta { font-size: 11px; color: #9ca3af; margin-top: 4px; font-family: ui-monospace, monospace; }
+  .stop .acts { display: flex; gap: 6px; flex-shrink: 0; }
+  .iconbtn {
+    border: 1.5px solid #dfe3ea; background: #fff; border-radius: 10px; padding: 8px 10px;
+    font-size: 14px; cursor: pointer;
+  }
+  .empty { text-align: center; color: #9ca3af; font-size: 14px; padding: 18px 0 6px; }
+  .btn {
+    width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700;
+    background: #4338ca; color: #fff; cursor: pointer; margin-top: 10px;
+  }
+  .btn.ghost { background: #eef0f6; color: #374151; }
+  .btnrow { display: flex; gap: 10px; } .btnrow .btn { margin-top: 10px; }
+  details.day { border: 1.5px solid #eceef3; border-radius: 14px; margin-top: 10px; padding: 12px 14px; }
+  details.day summary { font-weight: 700; cursor: pointer; font-size: 15px; }
+  details.day summary .s { color: #6b7280; font-weight: 600; font-size: 13px; }
+  #modal {
+    display: none; position: fixed; inset: 0; background: rgba(15,15,30,.55);
+    align-items: flex-end; justify-content: center; z-index: 50;
+  }
+  #modal.open { display: flex; }
+  #sheet {
+    background: #fff; width: 100%; max-width: 540px; border-radius: 24px 24px 0 0;
+    padding: 20px 18px 28px; max-height: 92vh; overflow-y: auto;
+  }
+  #sheet h3 { margin: 0 0 4px; font-size: 19px; }
+  #sheet .gpsinfo { font-size: 12px; color: #6b7280; font-family: ui-monospace, monospace; margin-bottom: 6px; }
+  #fileInput { display: none; }
+  .hint { font-size: 12px; color: #9ca3af; margin-top: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Delivery Tracker</h1>
+  <div class="date" id="dateLine"></div>
+  <div class="pill"><span class="dot" id="gpsDot"></span><span id="gpsText">Checking GPS…</span></div>
+</header>
+<main>
+  <div class="card">
+    <button id="reachBtn">📍 Reached there</button>
+    <div class="sub">Tap at every delivery stop.<br><button id="manualBtn">or add a stop without GPS</button></div>
+  </div>
+
+  <div class="card">
+    <h2>Today's drive</h2>
+    <div class="stats">
+      <div class="stat"><div class="n" id="statStops">0</div><div class="l">stops</div></div>
+      <div class="stat"><div class="n" id="statKm">–</div><div class="l">km driven</div></div>
+    </div>
+    <div class="row">
+      <div><label>Odometer at start of day</label><input id="odoStart" type="number" inputmode="decimal" placeholder="e.g. 45210.5"></div>
+      <div><label>Odometer at end of day</label><input id="odoEnd" type="number" inputmode="decimal" placeholder="e.g. 45387.2"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Today's stops</h2>
+    <div id="stops"></div>
+  </div>
+
+  <div class="card">
+    <h2>Export &amp; backup</h2>
+    <div class="btnrow">
+      <button class="btn" id="csvToday">CSV · today</button>
+      <button class="btn ghost" id="csvAll">CSV · all</button>
+    </div>
+    <div class="btnrow">
+      <button class="btn ghost" id="jsonOut">Backup</button>
+      <button class="btn ghost" id="jsonIn">Restore</button>
+    </div>
+    <input type="file" id="fileInput" accept="application/json">
+    <div class="hint">Export your CSV regularly — it's your tax record.<br>v1.0</div>
+  </div>
+
+  <div class="card">
+    <h2>Past days</h2>
+    <div id="past"></div>
+  </div>
+</main>
+
+<div id="modal"><div id="sheet">
+  <h3 id="sheetTitle">New stop</h3>
+  <div class="gpsinfo" id="gpsInfo"></div>
+  <label>Restaurant / place *</label><input id="fName" placeholder="e.g. Sushi Garden">
+  <label>Address</label><input id="fAddr" placeholder="street address">
+  <label>Odometer at this stop (optional)</label><input id="fOdo" type="number" inputmode="decimal" placeholder="km">
+  <label>Notes (optional)</label><input id="fNotes" placeholder="anything worth remembering">
+  <div class="btnrow">
+    <button class="btn ghost" id="cancelBtn">Cancel</button>
+    <button class="btn" id="saveBtn">Save stop</button>
+  </div>
+  <div class="btnrow"><button class="btn ghost" id="retryGps" style="display:none">Retry GPS</button></div>
+</div></div>
+
+<script>
+"use strict";
+const KEY = "deliveryTrackerV1";
+let db = { days: {} };
+try { db = JSON.parse(localStorage.getItem(KEY)) || { days: {} }; } catch(e) { db = { days: {} }; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e) {} }
+function todayKey(d) { d = d || new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function day() { const k = todayKey(); if (!db.days[k]) db.days[k] = { stops: [], odoStart: "", odoEnd: "" }; return db.days[k]; }
+function fmtTime(ts) { const d = new Date(ts); let h = d.getHours(), m = String(d.getMinutes()).padStart(2,"0"); const ap = h >= 12 ? "pm" : "am"; h = h % 12 || 12; return h + ":" + m + " " + ap; }
+function fmtDate(k) { const d = new Date(k+"T12:00:00"); return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}); }
+
+document.getElementById("dateLine").textContent = new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+
+/* GPS status */
+const dot = document.getElementById("gpsDot"), gtx = document.getElementById("gpsText");
+function setGps(state, msg) { dot.className = "dot " + state; gtx.textContent = msg; }
+if (!("geolocation" in navigator)) setGps("bad", "GPS not available on this device");
+else if (navigator.permissions && navigator.permissions.query) {
+  navigator.permissions.query({name:"geolocation"}).then(r => {
+    if (r.state === "granted") setGps("ok","GPS ready");
+    else if (r.state === "prompt") setGps("busy","GPS will ask permission");
+    else setGps("bad","GPS blocked — allow location for Chrome");
+    r.onchange = () => setGps(r.state==="granted"?"ok":"bad", r.state==="granted"?"GPS ready":"GPS "+r.state);
+  }).catch(() => setGps("busy","GPS will ask permission"));
+} else setGps("busy","GPS will ask permission");
+
+function getGPS() {
+  return new Promise((resolve, reject) => {
+    if (!("geolocation" in navigator)) return reject(new Error("unavailable"));
+    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy:true, timeout:15000, maximumAge:0 });
+  });
+}
+function gpsErr(e) {
+  if (e.code === 1) return "Location permission was denied. Allow location for Chrome, then retry.";
+  if (e.code === 2) return "Couldn't get a GPS fix. Try again near a window or outside.";
+  if (e.code === 3) return "GPS timed out. Try again.";
+  return "GPS error: " + (e.message || "unknown");
+}
+
+/* Entry modal */
+const modal = document.getElementById("modal");
+let editingId = null, pendingPos = null;
+function openSheet(opts) {
+  editingId = opts.id || null; pendingPos = opts.pos || null;
+  document.getElementById("sheetTitle").textContent = opts.id ? "Edit stop" : "New stop";
+  document.getElementById("fName").value = opts.name || "";
+  document.getElementById("fAddr").value = opts.address || "";
+  document.getElementById("fOdo").value = opts.odo || "";
+  document.getElementById("fNotes").value = opts.notes || "";
+  const gi = document.getElementById("gpsInfo"), retry = document.getElementById("retryGps");
+  if (opts.pos) { gi.textContent = "GPS: " + opts.pos.coords.latitude.toFixed(6) + ", " + opts.pos.coords.longitude.toFixed(6) + " (±" + Math.round(opts.pos.coords.accuracy) + "m)"; retry.style.display = "none"; }
+  else if (opts.gpsError) { gi.textContent = "GPS failed: " + opts.gpsError; retry.style.display = ""; }
+  else { gi.textContent = "No GPS coordinates — manual entry."; retry.style.display = "none"; }
+  modal.classList.add("open");
+}
+function closeSheet() { modal.classList.remove("open"); editingId = null; pendingPos = null; }
+document.getElementById("cancelBtn").onclick = closeSheet;
+modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
+
+document.getElementById("reachBtn").onclick = async () => {
+  const btn = document.getElementById("reachBtn");
+  btn.disabled = true; btn.textContent = "Getting GPS…";
+  setGps("busy","Locating…");
+  try {
+    const pos = await getGPS();
+    setGps("ok","GPS ready");
+    openSheet({ pos });
+  } catch(e) {
+    setGps("bad","GPS blocked — allow location for Chrome");
+    openSheet({ gpsError: gpsErr(e) });
+  }
+  btn.disabled = false; btn.textContent = "📍 Reached there";
+};
+document.getElementById("retryGps").onclick = () => { closeSheet(); document.getElementById("reachBtn").click(); };
+document.getElementById("manualBtn").onclick = () => openSheet({});
+
+document.getElementById("saveBtn").onclick = () => {
+  const name = document.getElementById("fName").value.trim();
+  if (!name) { alert("Please enter the restaurant or place name."); return; }
+  const d = day();
+  const stop = {
+    id: editingId || ("s" + Date.now()),
+    time: editingId ? d.stops.find(s=>s.id===editingId).time : Date.now(),
+    name, address: document.getElementById("fAddr").value.trim(),
+    notes: document.getElementById("fNotes").value.trim(),
+    odo: document.getElementById("fOdo").value.trim(),
+    lat: pendingPos ? +pendingPos.coords.latitude.toFixed(6) : null,
+    lng: pendingPos ? +pendingPos.coords.longitude.toFixed(6) : null
+  };
+  if (editingId) { const i = d.stops.findIndex(s=>s.id===editingId); d.stops[i] = stop; }
+  else d.stops.push(stop);
+  d.stops.sort((a,b)=>a.time-b.time);
+  save(); closeSheet(); render();
+};
+
+/* Odometer */
+const odoStart = document.getElementById("odoStart"), odoEnd = document.getElementById("odoEnd");
+odoStart.onchange = () => { day().odoStart = odoStart.value.trim(); save(); render(); };
+odoEnd.onchange = () => { day().odoEnd = odoEnd.value.trim(); save(); render(); };
+
+/* Render */
+function stopHTML(s) {
+  return `<div class="stop"><div><div class="t">${fmtTime(s.time)}</div><div class="name">${esc(s.name)}</div>` +
+    (s.address ? `<div class="addr">${esc(s.address)}</div>` : "") +
+    `<div class="meta">${s.lat!=null ? s.lat+", "+s.lng+" · " : ""}${s.odo ? "odo "+esc(s.odo)+" · " : ""}${esc(s.notes||"")}</div></div>` +
+    `<div class="acts"><button class="iconbtn" onclick="editStop('${s.id}')">✏️</button><button class="iconbtn" onclick="delStop('${s.id}')">🗑</button></div></div>`;
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+window.editStop = id => { const s = day().stops.find(x=>x.id===id); openSheet({ id, name:s.name, address:s.address, odo:s.odo, notes:s.notes, pos: s.lat!=null?{coords:{latitude:s.lat,longitude:s.lng,accuracy:0}}:null }); };
+window.delStop = id => { if (!confirm("Delete this stop?")) return; const d = day(); d.stops = d.stops.filter(s=>s.id!==id); save(); render(); };
+
+function render() {
+  const d = day();
+  document.getElementById("statStops").textContent = d.stops.length;
+  const a = parseFloat(d.odoStart), b = parseFloat(d.odoEnd);
+  document.getElementById("statKm").textContent = (!isNaN(a) && !isNaN(b) && b >= a) ? (b - a).toFixed(1) : "–";
+  if (document.activeElement !== odoStart) odoStart.value = d.odoStart || "";
+  if (document.activeElement !== odoEnd) odoEnd.value = d.odoEnd || "";
+  document.getElementById("stops").innerHTML = d.stops.length ? d.stops.map(stopHTML).join("") : `<div class="empty">No stops yet today.<br>Tap "Reached there" at your next delivery.</div>`;
+  const keys = Object.keys(db.days).filter(k=>k!==todayKey()).sort().reverse();
+  document.getElementById("past").innerHTML = keys.length ? keys.map(k => {
+    const pd = db.days[k]; const pa = parseFloat(pd.odoStart), pb = parseFloat(pd.odoEnd);
+    const km = (!isNaN(pa)&&!isNaN(pb)&&pb>=pa) ? (pb-pa).toFixed(1)+" km" : "–";
+    return `<details class="day"><summary>${fmtDate(k)} <span class="s">· ${pd.stops.length} stops · ${km}</span></summary>` +
+      (pd.stops.length ? pd.stops.map(stopHTML).join("") : `<div class="empty">No stops.</div>`) + `</details>`;
+  }).join("") : `<div class="empty">Nothing yet.</div>`;
+}
+
+/* Export */
+function download(name, content, mime) {
+  const b = new Blob([content], {type:mime}); const u = URL.createObjectURL(b);
+  const a = document.createElement("a"); a.href = u; a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(u); a.remove();}, 500);
+}
+function csvFor(keys) {
+  const rows = [["Date","Time","Restaurant","Address","Latitude","Longitude","Odometer","Notes"]];
+  keys.forEach(k => db.days[k].stops.forEach(s => rows.push([
+    k, fmtTime(s.time), s.name, s.address||"", s.lat==null?"":s.lat, s.lng==null?"":s.lng, s.odo||"", s.notes||""
+  ])));
+  return rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+}
+document.getElementById("csvToday").onclick = () => download("deliveries-"+todayKey()+".csv", csvFor([todayKey()]), "text/csv");
+document.getElementById("csvAll").onclick = () => download("deliveries-all.csv", csvFor(Object.keys(db.days).sort()), "text/csv");
+document.getElementById("jsonOut").onclick = () => download("delivery-tracker-backup.json", JSON.stringify(db), "application/json");
+document.getElementById("jsonIn").onclick = () => document.getElementById("fileInput").click();
+document.getElementById("fileInput").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { try { const d = JSON.parse(r.result); if (d && d.days) { db = d; save(); render(); alert("Backup restored."); } else alert("That file doesn't look like a tracker backup."); } catch(err){ alert("Couldn't read that file."); } };
+  r.readAsText(f); e.target.value = "";
+};
+
+render();
+</script>
+</body>
+</html>

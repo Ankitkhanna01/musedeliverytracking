@@ -340,9 +340,9 @@ function closeSheet() { modal.classList.remove("open"); editingId = null; pendin
 document.getElementById("cancelBtn").onclick = closeSheet;
 modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
 
-async function reversePlaceName(lat, lng) {
-  // Free OpenStreetMap place lookup: returns the actual venue name ("McDonald's")
-  // near the coordinates, the way Google Maps would show it.
+async function reversePhoton(lat, lng) {
+  // Free OpenStreetMap lookup: venue name ("McDonald's") + exact street address
+  // (house number + street + city) near the coordinates.
   try {
     const ctl = new AbortController();
     const to = setTimeout(() => ctl.abort(), 8000);
@@ -350,10 +350,14 @@ async function reversePlaceName(lat, lng) {
     clearTimeout(to);
     const j = await r.json();
     const f = (j.features || [])[0];
-    const p = f && f.properties;
-    if (!p || !p.name || p.osm_key === "highway") return "";
-    return p.name;
-  } catch (e) { return ""; }
+    const pr = (f && f.properties) || {};
+    const name = (pr.name && pr.osm_key !== "highway") ? pr.name : "";
+    const num = pr.housenumber ? pr.housenumber + " " : "";
+    const road = pr.street || "";
+    const city = pr.city || pr.town || pr.village || pr.locality || "";
+    const address = (num + road + (city ? ", " + city : "")).trim().replace(/^,\s*/, "");
+    return { name, address };
+  } catch (e) { return { name: "", address: "" }; }
 }
 async function reverseGeocode(lat, lng) {
   try {
@@ -379,9 +383,10 @@ document.getElementById("reachBtn").onclick = async () => {
     setGps("ok","GPS ready");
     btn.textContent = "Looking up address…";
     const lat = pos.coords.latitude, lng = pos.coords.longitude;
-    const [address, placeName] = await Promise.all([reverseGeocode(lat, lng), reversePlaceName(lat, lng)]);
-    const name = placeName || address || ("Stop " + fmtTime(Date.now()));
-    persistStop({ name, address: placeName && address && placeName !== address ? address : (address || ""), pos });
+    const [photon, nomAddr] = await Promise.all([reversePhoton(lat, lng), reverseGeocode(lat, lng)]);
+    const address = photon.address || nomAddr;
+    const name = photon.name || address || ("Stop " + fmtTime(Date.now()));
+    persistStop({ name, address, pos });
     toast("Logged ✓ " + name);
   } catch(e) {
     const msg = gpsErr(e);

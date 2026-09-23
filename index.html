@@ -290,13 +290,25 @@ else if (navigator.permissions && navigator.permissions.query) {
   }).catch(() => setGps("busy","GPS will ask permission"));
 } else setGps("busy","GPS will ask permission");
 
-function getGPS() {
+function getGPSOnce(opts) {
   return new Promise((resolve, reject) => {
-    if (!("geolocation" in navigator)) return reject(new Error("unavailable"));
-    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy:true, timeout:15000, maximumAge:0 });
+    if (!("geolocation" in navigator)) { const e = new Error("unavailable"); e.code = 0; return reject(e); }
+    navigator.geolocation.getCurrentPosition(resolve, reject, opts);
   });
 }
+async function getGPS() {
+  // Stage 1: precise GPS (satellite). Stage 2: wifi/cell location (works indoors).
+  try {
+    return await getGPSOnce({ enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+  } catch (e) {
+    if (e && (e.code === 2 || e.code === 3)) {
+      return await getGPSOnce({ enableHighAccuracy: false, timeout: 12000, maximumAge: 120000 });
+    }
+    throw e;
+  }
+}
 function gpsErr(e) {
+  if (!e || e.code === 0) return "This browser blocked location. Open the page in Chrome itself (not inside another app).";
   if (e.code === 1) return "Location permission was denied. Allow location for Chrome, then retry.";
   if (e.code === 2) return "Couldn't get a GPS fix. Try again near a window or outside.";
   if (e.code === 3) return "GPS timed out. Try again.";
@@ -348,8 +360,10 @@ document.getElementById("reachBtn").onclick = async () => {
     persistStop({ name, address, pos });
     toast("Logged ✓ " + name);
   } catch(e) {
-    setGps("bad","GPS blocked — allow location for Chrome");
-    openSheet({ gpsError: gpsErr(e) });
+    const msg = gpsErr(e);
+    setGps("bad", msg);
+    toast(msg);
+    openSheet({ gpsError: msg });
   }
   btn.disabled = false; btn.textContent = "📍 Reached there";
 };

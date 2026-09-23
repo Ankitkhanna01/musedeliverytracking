@@ -1,0 +1,23 @@
+{
+ "summary": {
+  "year": 2026,
+  "business_km": 7079.8,
+  "personal_km": 287.7,
+  "uncategorized_km": 0,
+  "logged_km": 7367.5,
+  "odometer_km": 10170,
+  "unlogged_km": 2802.5,
+  "business_percent_of_logged": 96.1,
+  "business_percent_of_odometer": 69.6,
+  "expense_total": 2105.71,
+  "expenses_by_category": {
+   "fuel": 698.02,
+   "grocery": 918.29,
+   "restaurant": 252.48,
+   "transportation": 0.3,
+   "entertainment": 16.54,
+   "medical": 204.3,
+   "shopping": 15.78
+  }
+ }
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d9488">
+<meta name="theme-color" content="#141619">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,532 +13,499 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Delivery Tracker</title>
 <style>
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body {
-    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #eef1f6; color: #1a1d23; padding-bottom: 40px;
-  }
-  header {
-    background: linear-gradient(135deg, #4338ca, #6d28d9);
-    color: #fff; padding: 22px 20px 26px; border-radius: 0 0 24px 24px;
-  }
-  header h1 { margin: 0; font-size: 22px; letter-spacing: .3px; }
-  header .date { opacity: .85; font-size: 14px; margin-top: 4px; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
-    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.25);
-    padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
-  }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: #9ca3af; }
-  .dot.ok { background: #34d399; } .dot.bad { background: #f87171; } .dot.busy { background: #fbbf24; }
-  main { max-width: 540px; margin: -14px auto 0; padding: 0 14px; }
-  .card {
-    background: #fff; border-radius: 18px; padding: 18px; margin-top: 14px;
-    box-shadow: 0 2px 10px rgba(20,20,40,.06);
-  }
-  .card h2 { margin: 0 0 12px; font-size: 15px; text-transform: uppercase; letter-spacing: .8px; color: #6b7280; }
-  #reachBtn {
-    width: 100%; border: 0; border-radius: 16px; padding: 20px; font-size: 20px; font-weight: 800;
-    color: #fff; background: linear-gradient(135deg, #4338ca, #6d28d9); cursor: pointer;
-    box-shadow: 0 6px 18px rgba(67,56,202,.35);
-  }
-  #reachBtn:active { transform: scale(.98); }
-  #reachBtn:disabled { opacity: .6; }
-  #toast { position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%) translateY(16px); background: #111; color: #fff; padding: 12px 18px; border-radius: 999px; font-size: 14px; max-width: 88vw; text-align: center; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 99; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .sub { text-align: center; font-size: 13px; color: #6b7280; margin-top: 10px; }
-  .sub button { background: none; border: 0; color: #4338ca; font-weight: 700; font-size: 13px; cursor: pointer; padding: 6px; }
-  .row { display: flex; gap: 10px; }
-  .row > div { flex: 1; }
-  label { display: block; font-size: 13px; font-weight: 600; color: #4b5563; margin: 10px 0 6px; }
-  input, textarea {
-    width: 100%; border: 1.5px solid #dfe3ea; border-radius: 12px; padding: 12px;
-    font-size: 16px; font-family: inherit; background: #fbfcfe;
-  }
-  input:focus, textarea:focus { outline: none; border-color: #4338ca; background: #fff; }
-  .stats { display: flex; gap: 10px; }
-  .stat { flex: 1; background: #f4f3ff; border-radius: 14px; padding: 14px; text-align: center; }
-  .stat .n { font-size: 26px; font-weight: 800; color: #4338ca; }
-  .stat .l { font-size: 12px; color: #6b7280; margin-top: 2px; }
-  .stop {
-    border: 1.5px solid #eceef3; border-radius: 14px; padding: 12px 14px; margin-top: 10px;
-    display: flex; justify-content: space-between; gap: 10px; align-items: flex-start;
-  }
-  .stop .t { font-size: 12px; color: #6b7280; font-weight: 600; }
-  .stop .name { font-weight: 700; font-size: 16px; margin-top: 2px; }
-  .stop .addr { font-size: 13px; color: #4b5563; margin-top: 2px; }
-  .stop .meta { font-size: 11px; color: #9ca3af; margin-top: 4px; font-family: ui-monospace, monospace; }
-  .stop .acts { display: flex; gap: 6px; flex-shrink: 0; }
-  .iconbtn {
-    border: 1.5px solid #dfe3ea; background: #fff; border-radius: 10px; padding: 8px 10px;
-    font-size: 14px; cursor: pointer;
-  }
-  .empty { text-align: center; color: #9ca3af; font-size: 14px; padding: 18px 0 6px; }
-  .btn {
-    width: 100%; border: 0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700;
-    background: #4338ca; color: #fff; cursor: pointer; margin-top: 10px;
-  }
-  .btn.ghost { background: #eef0f6; color: #374151; }
-  .btnrow { display: flex; gap: 10px; } .btnrow .btn { margin-top: 10px; }
-  details.day { border: 1.5px solid #eceef3; border-radius: 14px; margin-top: 10px; padding: 12px 14px; }
-  details.day summary { font-weight: 700; cursor: pointer; font-size: 15px; }
-  details.day summary .s { color: #6b7280; font-weight: 600; font-size: 13px; }
-  #modal {
-    display: none; position: fixed; inset: 0; background: rgba(15,15,30,.55);
-    align-items: flex-end; justify-content: center; z-index: 50;
-  }
-  #modal.open { display: flex; }
-  #sheet {
-    background: #fff; width: 100%; max-width: 540px; border-radius: 24px 24px 0 0;
-    padding: 20px 18px 28px; max-height: 92vh; overflow-y: auto;
-  }
-  #sheet h3 { margin: 0 0 4px; font-size: 19px; }
-  #sheet .gpsinfo { font-size: 12px; color: #6b7280; font-family: ui-monospace, monospace; margin-bottom: 6px; }
-  #fileInput { display: none; }
-  .hint { font-size: 12px; color: #9ca3af; margin-top: 12px; text-align: center; }
-  header { position: relative; }
-  .lockbtn {
-    position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,.18);
-    border: 1px solid rgba(255,255,255,.25); color: #fff; border-radius: 999px;
-    padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer;
-  }
-  #lock {
-    position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
-    padding: 20px; background: linear-gradient(135deg, #4338ca, #6d28d9);
-  }
-  .lockcard {
-    background: #fff; border-radius: 22px; padding: 30px 24px; width: 100%; max-width: 360px;
-    text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.25);
-  }
-  .lockicon { font-size: 44px; }
-  .lockcard h2 { margin: 10px 0 4px; font-size: 20px; }
-  .locksub { color: #6b7280; font-size: 13px; margin: 0 0 10px; }
-  .lockerr { color: #dc2626; font-size: 13px; font-weight: 600; min-height: 18px; margin-bottom: 6px; }
-  .lockcard label { text-align: left; }
-  .lockcard input { text-align: center; font-size: 20px; letter-spacing: 2px; }
+:root{
+  --bg:#141619; --card:#1E2226; --card2:#23282d; --border:rgba(255,255,255,.08);
+  --primary:#34D399; --primary2:#10B981; --text:#F5F5F5; --muted:#9CA3AF; --dim:#6b7280;
+  --amber:#FBBF24; --red:#F87171; --teal-dim:rgba(52,211,153,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;font-size:14px;padding-bottom:96px}
+header{padding:20px 16px 12px;max-width:512px;margin:0 auto;position:relative}
+header h1{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}
+header .date{color:var(--muted);font-size:13px;margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:7px;margin-top:10px;background:var(--card);border:1px solid var(--border);padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.dot{width:9px;height:9px;border-radius:50%;background:#6b7280;flex-shrink:0}
+.dot.ok{background:var(--primary);box-shadow:0 0 8px var(--primary)} .dot.bad{background:var(--red)} .dot.busy{background:var(--amber)}
+.lockbtn{position:absolute;top:20px;right:16px;background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:700;cursor:pointer}
+main{max-width:512px;margin:0 auto;padding:0 12px}
+.page{display:none}.page.on{display:block;animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:12px;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.card h2{margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700}
+.card.glow{border-color:rgba(52,211,153,.3);box-shadow:0 0 24px rgba(52,211,153,.12),0 4px 16px rgba(0,0,0,.25)}
+.btn{width:100%;border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;font-family:inherit}
+.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#052e21;box-shadow:0 4px 16px rgba(52,211,153,.3)}
+.btn.primary:active{transform:scale(.98)}
+.btn.danger{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff}
+.btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--border)}
+.btn.outline{background:transparent;color:var(--primary);border:1px solid rgba(52,211,153,.4)}
+.btn.sm{padding:10px;font-size:13.5px}
+.btn:disabled{opacity:.45}
+.btnrow{display:flex;gap:10px}.btnrow .btn{flex:1}
+.bigstat{text-align:center;padding:8px 0 2px}
+.bigstat .v{font-size:34px;font-weight:800;color:var(--primary)}
+.bigstat .l{font-size:12px;color:var(--muted);margin-top:2px}
+.statgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+.stat .n{font-size:20px;font-weight:800}
+.stat .l{font-size:11px;color:var(--muted);margin-top:3px}
+.seg{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:3px;margin-top:12px}
+.seg button{flex:1;border:0;background:transparent;color:var(--muted);font-weight:700;font-size:13px;padding:9px;border-radius:8px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--teal-dim);color:var(--primary)}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;margin:18px 2px 8px}
+.dayhead .d{font-weight:700;font-size:14.5px}
+.dayhead .s{color:var(--muted);font-size:12px}
+.trip{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-top:8px;overflow:hidden}
+.trip .row{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.trip .row + .row{border-top:1px solid rgba(255,255,255,.05)}
+.ticon{width:38px;height:38px;border-radius:50%;background:var(--teal-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ticon svg{width:19px;height:19px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ticon.amber{background:rgba(251,191,36,.12)} .ticon.amber svg{stroke:var(--amber)}
+.ticon.gray{background:rgba(156,163,175,.12)} .ticon.gray svg{stroke:var(--muted)}
+.tmain{flex:1;min-width:0}
+.tmain .t{font-weight:700;font-size:13.5px}
+.tmain .r{font-size:12.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tmain .s{font-size:11.5px;color:var(--dim);margin-top:2px}
+.tkm{text-align:right;flex-shrink:0}
+.tkm .k{font-weight:800;color:var(--primary);font-size:14.5px}
+.tkm .c{color:var(--dim);font-size:16px;margin-top:2px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;margin-top:4px}
+.tag.traffic{background:rgba(251,191,36,.14);color:var(--amber)}
+.tag.real{background:var(--teal-dim);color:var(--primary)}
+.tag.gap{background:rgba(248,113,113,.14);color:var(--red)}
+.chev{color:var(--dim);font-size:18px;flex-shrink:0}
+.selring{outline:2px solid var(--primary);outline-offset:-2px}
+.tl{position:relative;margin-top:6px;padding-left:2px}
+.tl-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;cursor:pointer;border-radius:10px}
+.tl-item .tick{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--dim);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;color:#052e21;font-size:13px;font-weight:800}
+.tl-item.sel .tick{background:var(--primary);border-color:var(--primary)}
+.tl-item.sel{background:rgba(52,211,153,.05)}
+input,textarea,select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;background:rgba(255,255,255,.04);color:var(--text)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary)}
+select option{background:#1E2226}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:10px 0 6px}
+.row2{display:flex;gap:10px}.row2>div{flex:1}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);background:#0b0d0e;color:#fff;padding:12px 20px;border-radius:999px;font-size:13.5px;max-width:88vw;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:99;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;color:var(--dim);font-size:13.5px;padding:22px 0 10px;line-height:1.6}
+.hint{font-size:11.5px;color:var(--dim);margin-top:12px;text-align:center;line-height:1.6}
+#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center;z-index:50}
+#modal.open{display:flex}
+#sheet{background:#1b1e22;width:100%;max-width:512px;border-radius:20px 20px 0 0;padding:20px 18px 30px;max-height:92vh;overflow-y:auto;border-top:1px solid var(--border)}
+#sheet h3{margin:0 0 4px;font-size:18px}
+#sheet .gpsinfo{font-size:11.5px;color:var(--dim);font-family:ui-monospace,monospace;margin-bottom:6px}
+#tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(20,22,25,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--border)}
+#tabbar .in{max-width:512px;margin:0 auto;display:flex;padding:8px 6px calc(10px + env(safe-area-inset-bottom))}
+#tabbar button{flex:1;border:0;background:transparent;color:var(--dim);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;cursor:pointer;font-family:inherit;border-radius:10px}
+#tabbar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#tabbar button.on{color:var(--primary);background:var(--teal-dim)}
+#lock{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}
+.lockcard{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px 24px;width:100%;max-width:360px;text-align:center}
+.lockicon{font-size:40px}
+.lockcard h2{margin:10px 0 4px;font-size:19px}
+.locksub{color:var(--muted);font-size:13px;margin:0 0 10px}
+.lockerr{color:var(--red);font-size:13px;font-weight:600;min-height:18px;margin-bottom:6px}
+.lockcard label{text-align:left}
+.lockcard input{text-align:center;font-size:19px;letter-spacing:2px}
+#wvBanner{display:none;background:rgba(251,191,36,.1);color:var(--amber);padding:12px 14px;font-size:13px;line-height:1.5;border-bottom:1px solid rgba(251,191,36,.3)}
+.rec{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block;margin-right:7px;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.livebar{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px}
 </style>
 </head>
 <body>
-<div id="wvBanner" style="display:none;background:#fef3c7;color:#92400e;padding:12px 14px;font-size:14px;line-height:1.45;border-bottom:1px solid #fcd34d;">
-  <b>Location is blocked here.</b> You're viewing this inside another app's browser, which can't access GPS.<br>
-  <button id="copyLinkBtn" style="margin-top:8px;background:#0d9488;color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;">Copy link — then paste it in Chrome</button>
-  <button id="wvDismiss" style="margin-top:8px;margin-left:8px;background:transparent;border:1px solid #d1a054;border-radius:8px;padding:8px 12px;font-size:14px;color:#92400e;">Dismiss</button>
-</div>
+<div id="wvBanner"><b>Location is blocked here.</b> You're inside another app's browser, which can't access GPS.<br>
+<button id="copyLinkBtn" class="btn sm ghost" style="margin-top:8px">Copy link — paste it in Chrome</button></div>
 <div id="lock"><div class="lockcard">
-  <div class="lockicon">🔒</div>
-  <h2 id="lockTitle">Enter passcode</h2>
-  <p class="locksub" id="lockSub">This tracker is private.</p>
-  <div class="lockerr" id="lockErr"></div>
-  <label id="lockL1" style="display:none">Current passcode</label>
-  <input id="lockP0" type="password" autocomplete="off" style="display:none">
-  <label id="lockL2">Passcode</label>
-  <input id="lockP1" type="password" autocomplete="current-password">
-  <div id="lockWrap2" style="display:none"><label>Confirm passcode</label><input id="lockP2" type="password" autocomplete="new-password"></div>
-  <button class="btn" id="lockGo">Unlock</button>
-</div></div>
+<div class="lockicon">🔒</div><h2 id="lockTitle">Enter passcode</h2><p class="locksub" id="lockSub">This tracker is private.</p>
+<div class="lockerr" id="lockErr"></div>
+<label id="lockL1" style="display:none">Current passcode</label><input id="lockP0" type="password" autocomplete="off" style="display:none">
+<label id="lockL2">Passcode</label><input id="lockP1" type="password" autocomplete="current-password">
+<div id="lockWrap2" style="display:none"><label>Confirm passcode</label><input id="lockP2" type="password" autocomplete="new-password"></div>
+<button class="btn primary" id="lockGo">Unlock</button></div></div>
 <script>(function(){try{if(localStorage.getItem("dt_unlocked")==="1"&&localStorage.getItem("dt_passHash")){document.getElementById("lock").style.display="none";}}catch(e){}})();</script>
 <header>
-  <h1>Delivery Tracker</h1>
-  <div class="date" id="dateLine"></div>
-  <div class="pill" id="gpsPill" style="cursor:pointer" title="Tap to test GPS"><span class="dot" id="gpsDot"></span><span id="gpsText">Checking GPS…</span></div>
-  <button id="lockBtn" class="lockbtn">🔒 Lock</button>
-</header>
+<h1>Delivery Tracker</h1><div class="date" id="dateLine"></div>
+<div class="pill" id="gpsPill"><span class="dot" id="gpsDot"></span><span id="gpsText">Checking GPS…</span></div>
+<button id="lockBtn" class="lockbtn">🔒 Lock</button></header>
 <main>
-  <div class="card">
-    <button id="reachBtn">📍 Reached there</button>
-    <div class="sub">Tap at every delivery stop.<br><button id="manualBtn">or add a stop without GPS</button></div>
-  </div>
-
-  <div class="card">
-    <h2>Today's drive</h2>
-    <div class="stats">
-      <div class="stat"><div class="n" id="statStops">0</div><div class="l">stops</div></div>
-      <div class="stat"><div class="n" id="statKm">–</div><div class="l">km driven</div></div>
+<section class="page on" id="page-track">
+  <div class="card glow" id="shiftCard">
+    <h2>Auto tracking</h2>
+    <div id="idleBox">
+      <div class="empty" style="padding:6px 0 2px">Tap start when you begin driving.<br>Every stop and start is recorded automatically.</div>
+      <button class="btn primary" id="shiftBtn">▶ Start shift</button>
+      <div class="hint">Keep this page open while driving — websites can't track GPS with the browser closed. Your screen may dim but tracking keeps running.</div>
     </div>
-    <div class="row">
-      <div><label>Odometer at start of day</label><input id="odoStart" type="number" inputmode="decimal" placeholder="e.g. 45210.5"></div>
-      <div><label>Odometer at end of day</label><input id="odoEnd" type="number" inputmode="decimal" placeholder="e.g. 45387.2"></div>
+    <div id="liveBox" style="display:none">
+      <div class="livebar"><span class="rec"></span>TRACKING</div>
+      <div class="statgrid">
+        <div class="stat"><div class="n" id="liveSpeed" style="color:var(--primary)">0</div><div class="l">km/h now</div></div>
+        <div class="stat"><div class="n" id="liveKm">0.0</div><div class="l">km this shift</div></div>
+        <div class="stat"><div class="n" id="liveStops">0</div><div class="l">stops</div></div>
+      </div>
+      <div class="hint" id="trackHint">Moving…</div>
+      <button class="btn danger" id="shiftBtnStop">■ End shift</button>
     </div>
   </div>
-
-  <div class="card">
-    <h2>Today's stops</h2>
-    <div id="stops"></div>
+  <div class="card"><h2>Manual stop</h2>
+    <button class="btn ghost" id="reachBtn">📍 Reached there — log this spot now</button>
+    <div class="hint">Backup for when you want to pin a stop yourself.</div></div>
+  <div class="card"><h2>Today's auto trips</h2><div id="todayTrips"></div></div>
+</section>
+<section class="page" id="page-trips">
+  <div class="seg" id="tripSeg"><button data-v="new" class="on">My trips</button><button data-v="hist">History</button></div>
+  <div id="tripsNew"></div>
+  <div id="tripsHist" style="display:none">
+    <label>Month</label><select id="histMonth"></select>
+    <div id="histList"></div>
+    <div class="hint" id="histStatus">History loads from your backed-up data.</div>
   </div>
-
-  <div class="card">
-    <h2>Export &amp; backup</h2>
-    <div class="btnrow">
-      <button class="btn" id="csvToday">CSV · today</button>
-      <button class="btn ghost" id="csvAll">CSV · all</button>
+</section>
+<section class="page" id="page-review">
+  <div class="card"><h2>Day review</h2>
+    <label>Day</label><input type="date" id="revDay">
+    <div class="statgrid">
+      <div class="stat"><div class="n" id="revTrips" style="color:var(--primary)">0</div><div class="l">trips</div></div>
+      <div class="stat"><div class="n" id="revKm">0</div><div class="l">km</div></div>
+      <div class="stat"><div class="n" id="revLights" style="color:var(--amber)">0</div><div class="l">light stops</div></div>
     </div>
-    <div class="btnrow">
-      <button class="btn ghost" id="jsonOut">Backup</button>
-      <button class="btn ghost" id="jsonIn">Restore</button>
-    </div>
-    <input type="file" id="fileInput" accept="application/json">
-    <div class="btnrow"><button class="btn ghost" id="changePass">Change passcode</button></div>
-    <div class="hint">Export your CSV regularly — it's your tax record.<br>v1.1</div>
+    <div class="hint">🚦 = probably just a traffic light — tap trips to select, then merge the ones that were really one drive.</div>
   </div>
-
-  <div class="card">
-    <h2>Past days</h2>
-    <div id="past"></div>
-  </div>
+  <div id="revTimeline"></div>
+  <div class="card" id="mergeCard" style="display:none"><h2>Merge selected</h2>
+    <div class="btnrow"><button class="btn primary sm" id="mergeSelBtn">Merge selected trips</button>
+    <button class="btn ghost sm" id="mergeClearBtn">Clear</button></div></div>
+  <div class="card"><button class="btn outline sm" id="mergeLightsBtn">✨ One-tap: merge all light-stop splits</button>
+  <div class="hint">Joins every pair of trips separated only by a traffic-light stop.</div></div>
+</section>
+<section class="page" id="page-more">
+  <div class="card"><h2>Odometer</h2><div class="row2">
+    <div><label>Start of day</label><input id="odoStart" type="number" inputmode="decimal" placeholder="e.g. 45210.5"></div>
+    <div><label>End of day</label><input id="odoEnd" type="number" inputmode="decimal" placeholder="e.g. 45387.2"></div></div></div>
+  <div class="card"><h2>Export &amp; backup</h2>
+    <div class="btnrow"><button class="btn ghost sm" id="csvToday">CSV · today</button><button class="btn ghost sm" id="csvAll">CSV · all</button></div>
+    <div class="btnrow"><button class="btn ghost sm" id="jsonOut">Backup</button><button class="btn ghost sm" id="jsonIn">Restore</button></div>
+    <input type="file" id="fileInput" accept="application/json" style="display:none">
+    <div class="btnrow"><button class="btn ghost sm" id="changePass">Change passcode</button></div>
+    <div class="hint">v2.0 · auto-tracking build<br>Export your CSV regularly — it's your tax record.</div></div>
+</section>
 </main>
-
-<div id="modal"><div id="sheet">
-  <h3 id="sheetTitle">New stop</h3>
-  <div class="gpsinfo" id="gpsInfo"></div>
-  <label>Restaurant / place *</label><input id="fName" placeholder="e.g. Sushi Garden">
-  <label>Address</label><input id="fAddr" placeholder="street address">
-  <label>Odometer at this stop (optional)</label><input id="fOdo" type="number" inputmode="decimal" placeholder="km">
-  <label>Notes (optional)</label><input id="fNotes" placeholder="anything worth remembering">
-  <div class="btnrow">
-    <button class="btn ghost" id="cancelBtn">Cancel</button>
-    <button class="btn" id="saveBtn">Save stop</button>
-  </div>
-  <div class="btnrow"><button class="btn ghost" id="retryGps" style="display:none">Retry GPS</button></div>
+<div id="tabbar"><div class="in">
+<button data-tab="track" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/></svg>Track</button>
+<button data-tab="trips"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17l1.5-5h9L18 17M8 12V8h8v4M7.5 20v-3M16.5 20v-3"/></svg>Trips</button>
+<button data-tab="review"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>Review</button>
+<button data-tab="more"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.07-.4.1-.8.1-1.2z"/></svg>More</button>
 </div></div>
-
+<div id="modal"><div id="sheet"><h3 id="sheetTitle">New stop</h3><div class="gpsinfo" id="gpsInfo"></div>
+<label>Restaurant / place *</label><input id="fName" placeholder="e.g. Sushi Garden">
+<label>Address</label><input id="fAddr" placeholder="street address">
+<label>Odometer at this stop (optional)</label><input id="fOdo" type="number" inputmode="decimal" placeholder="km">
+<label>Notes (optional)</label><input id="fNotes" placeholder="anything worth remembering">
+<div class="btnrow"><button class="btn ghost" id="cancelBtn">Cancel</button><button class="btn primary" id="saveBtn">Save stop</button></div>
+<div class="btnrow"><button class="btn ghost" id="retryGps" style="display:none">Retry GPS</button></div></div></div>
+<div id="toast"></div>
 <script>
 "use strict";
-/* Passcode lock — casual gate, not real security (page source can bypass it). */
-const PH = "dt_passHash", UK = "dt_unlocked";
-const lockEl = document.getElementById("lock");
-async function hashPass(s) {
-  try {
-    if (window.crypto && crypto.subtle) {
-      const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("dt::" + s));
-      return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
-    }
-  } catch (e) {}
-  let h1 = 0xdeadbeef, h2 = 0x41c6ce57; const str = "dt::" + s;
-  for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return (h2 >>> 0).toString(16) + (h1 >>> 0).toString(16);
-}
-let lockMode = "unlock";
-function setLockMode(m) {
-  lockMode = m;
-  const t = document.getElementById("lockTitle"), s = document.getElementById("lockSub"),
-        go = document.getElementById("lockGo"), err = document.getElementById("lockErr"),
-        l1 = document.getElementById("lockL1"), p0 = document.getElementById("lockP0"),
-        l2 = document.getElementById("lockL2"), w2 = document.getElementById("lockWrap2");
-  err.textContent = "";
-  ["lockP0", "lockP1", "lockP2"].forEach(id => document.getElementById(id).value = "");
-  if (m === "setup") {
-    t.textContent = "Set your passcode"; s.textContent = "Only you will know this code.";
-    go.textContent = "Save passcode"; l1.style.display = "none"; p0.style.display = "none";
-    l2.textContent = "Choose a passcode (min 4 characters)"; w2.style.display = "";
-  } else if (m === "change") {
-    t.textContent = "Change passcode"; s.textContent = "Enter your current code, then a new one.";
-    go.textContent = "Change passcode"; l1.style.display = ""; p0.style.display = "";
-    l2.textContent = "New passcode (min 4 characters)"; w2.style.display = "";
-  } else {
-    t.textContent = "Enter passcode"; s.textContent = "This tracker is private.";
-    go.textContent = "Unlock"; l1.style.display = "none"; p0.style.display = "none";
-    l2.textContent = "Passcode"; w2.style.display = "none";
-  }
-  lockEl.style.display = "flex";
-  setTimeout(() => document.getElementById(m === "change" ? "lockP0" : "lockP1").focus(), 60);
-}
-document.getElementById("lockGo").onclick = async () => {
-  const err = document.getElementById("lockErr");
-  const p0 = document.getElementById("lockP0").value,
-        p1 = document.getElementById("lockP1").value,
-        p2 = document.getElementById("lockP2").value;
-  err.textContent = "";
-  try {
-    if (lockMode === "unlock") {
-      if ((await hashPass(p1)) === localStorage.getItem(PH)) { localStorage.setItem(UK, "1"); lockEl.style.display = "none"; }
-      else err.textContent = "Wrong passcode. Try again.";
-    } else if (lockMode === "setup") {
-      if (p1.length < 4) err.textContent = "Use at least 4 characters.";
-      else if (p1 !== p2) err.textContent = "The two codes don't match.";
-      else { localStorage.setItem(PH, await hashPass(p1)); localStorage.setItem(UK, "1"); lockEl.style.display = "none"; }
-    } else {
-      if ((await hashPass(p0)) !== localStorage.getItem(PH)) err.textContent = "Current passcode is wrong.";
-      else if (p1.length < 4) err.textContent = "Use at least 4 characters.";
-      else if (p1 !== p2) err.textContent = "The two new codes don't match.";
-      else { localStorage.setItem(PH, await hashPass(p1)); lockEl.style.display = "none"; alert("Passcode changed."); }
-    }
-  } catch (e) { err.textContent = "Something went wrong. Try again."; }
-};
-lockEl.addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("lockGo").click(); });
-document.getElementById("lockBtn").onclick = () => { try { localStorage.removeItem(UK); } catch (e) {} setLockMode("unlock"); };
-document.getElementById("changePass").onclick = () => setLockMode("change");
-try { if (!localStorage.getItem(PH)) setLockMode("setup"); } catch (e) {}
-
-const KEY = "deliveryTrackerV1";
-let db = { days: {} };
-try { db = JSON.parse(localStorage.getItem(KEY)) || { days: {} }; } catch(e) { db = { days: {} }; }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e) {} }
-function todayKey(d) { d = d || new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
-function day() { const k = todayKey(); if (!db.days[k]) db.days[k] = { stops: [], odoStart: "", odoEnd: "" }; return db.days[k]; }
-function fmtTime(ts) { const d = new Date(ts); let h = d.getHours(), m = String(d.getMinutes()).padStart(2,"0"); const ap = h >= 12 ? "pm" : "am"; h = h % 12 || 12; return h + ":" + m + " " + ap; }
-function fmtDate(k) { const d = new Date(k+"T12:00:00"); return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}); }
-
-document.getElementById("dateLine").textContent = new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
-
-/* GPS status */
-const dot = document.getElementById("gpsDot"), gtx = document.getElementById("gpsText");
-function setGps(state, msg) { dot.className = "dot " + state; gtx.textContent = msg; }
-if (!("geolocation" in navigator)) setGps("bad", "GPS not available on this device");
-else if (navigator.permissions && navigator.permissions.query) {
-  navigator.permissions.query({name:"geolocation"}).then(r => {
-    if (r.state === "granted") setGps("ok","GPS ready");
-    else if (r.state === "prompt") setGps("busy","GPS will ask permission");
-    else setGps("bad","GPS blocked — allow location for Chrome");
-    r.onchange = () => setGps(r.state==="granted"?"ok":"bad", r.state==="granted"?"GPS ready":"GPS "+r.state);
-  }).catch(() => setGps("busy","GPS will ask permission"));
-} else setGps("busy","GPS will ask permission");
-
-function getGPSOnce(opts) {
-  return new Promise((resolve, reject) => {
-    if (!("geolocation" in navigator)) { const e = new Error("unavailable"); e.code = 0; return reject(e); }
-    navigator.geolocation.getCurrentPosition(resolve, reject, opts);
-  });
-}
-async function getGPS() {
-  // Stage 1: precise GPS (satellite). Stage 2: wifi/cell location (works indoors).
-  try {
-    return await getGPSOnce({ enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
-  } catch (e) {
-    if (e && (e.code === 2 || e.code === 3)) {
-      return await getGPSOnce({ enableHighAccuracy: false, timeout: 12000, maximumAge: 120000 });
-    }
-    throw e;
-  }
-}
-function gpsErr(e) {
-  if (!e || e.code === 0) return "This browser blocked location. Open the page in Chrome itself (not inside another app).";
-  if (e.code === 1) return "Location permission was denied. Allow location for Chrome, then retry.";
-  if (e.code === 2) return "Couldn't get a GPS fix. Try again near a window or outside.";
-  if (e.code === 3) return "GPS timed out. Try again.";
-  return "GPS error: " + (e.message || "unknown");
-}
-
-/* Entry modal */
-const modal = document.getElementById("modal");
-let editingId = null, pendingPos = null;
-function openSheet(opts) {
-  editingId = opts.id || null; pendingPos = opts.pos || null;
-  document.getElementById("sheetTitle").textContent = opts.id ? "Edit stop" : "New stop";
-  document.getElementById("fName").value = opts.name || "";
-  document.getElementById("fAddr").value = opts.address || "";
-  document.getElementById("fOdo").value = opts.odo || "";
-  document.getElementById("fNotes").value = opts.notes || "";
-  const gi = document.getElementById("gpsInfo"), retry = document.getElementById("retryGps");
-  if (opts.pos) { gi.textContent = "GPS: " + opts.pos.coords.latitude.toFixed(6) + ", " + opts.pos.coords.longitude.toFixed(6) + " (±" + Math.round(opts.pos.coords.accuracy) + "m)"; retry.style.display = "none"; }
-  else if (opts.gpsError) { gi.textContent = "GPS failed: " + opts.gpsError; retry.style.display = ""; }
-  else { gi.textContent = "No GPS coordinates — manual entry."; retry.style.display = "none"; }
-  modal.classList.add("open");
-}
-function closeSheet() { modal.classList.remove("open"); editingId = null; pendingPos = null; }
-document.getElementById("cancelBtn").onclick = closeSheet;
-modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
-
-async function reversePhoton(lat, lng) {
-  // Free OpenStreetMap lookup: venue name ("McDonald's") + exact street address
-  // (house number + street + city) near the coordinates.
-  try {
-    const ctl = new AbortController();
-    const to = setTimeout(() => ctl.abort(), 8000);
-    const r = await fetch("https://photon.komoot.io/reverse?lat=" + lat + "&lon=" + lng + "&lang=en", { signal: ctl.signal });
-    clearTimeout(to);
-    const j = await r.json();
-    const f = (j.features || [])[0];
-    const pr = (f && f.properties) || {};
-    const name = (pr.name && pr.osm_key !== "highway") ? pr.name : "";
-    const num = pr.housenumber ? pr.housenumber + " " : "";
-    const road = pr.street || "";
-    const city = pr.city || pr.town || pr.village || pr.locality || "";
-    const address = (num + road + (city ? ", " + city : "")).trim().replace(/^,\s*/, "");
-    return { name, address };
-  } catch (e) { return { name: "", address: "" }; }
-}
-async function reverseGeocode(lat, lng) {
-  try {
-    const ctl = new AbortController();
-    const to = setTimeout(() => ctl.abort(), 8000);
-    const r = await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng + "&zoom=18&addressdetails=1", { headers: { "Accept": "application/json" }, signal: ctl.signal });
-    clearTimeout(to);
-    const j = await r.json();
-    const a = j.address || {};
-    const num = a.house_number ? a.house_number + " " : "";
-    const road = a.road || a.pedestrian || a.footway || a.neighbourhood || "";
-    const city = a.city || a.town || a.village || a.suburb || "";
-    const s = (num + road + (city ? ", " + city : "")).trim().replace(/^,/, "").trim();
-    return s || j.display_name || "";
-  } catch (e) { return ""; }
-}
-document.getElementById("reachBtn").onclick = async () => {
-  const btn = document.getElementById("reachBtn");
-  btn.disabled = true; btn.textContent = "Getting GPS…";
-  setGps("busy","Locating…");
-  try {
-    const pos = await getGPS();
-    setGps("ok","GPS ready");
-    btn.textContent = "Looking up address…";
-    const lat = pos.coords.latitude, lng = pos.coords.longitude;
-    const [photon, nomAddr] = await Promise.all([reversePhoton(lat, lng), reverseGeocode(lat, lng)]);
-    const address = photon.address || nomAddr;
-    const name = photon.name || address || ("Stop " + fmtTime(Date.now()));
-    persistStop({ name, address, pos });
-    toast("Logged ✓ " + name);
-  } catch(e) {
-    const msg = gpsErr(e);
-    setGps("bad", msg);
-    toast(msg);
-    openSheet({ gpsError: msg });
-  }
-  btn.disabled = false; btn.textContent = "📍 Reached there";
-};
-document.getElementById("retryGps").onclick = () => { closeSheet(); document.getElementById("reachBtn").click(); };
-document.getElementById("manualBtn").onclick = () => openSheet({});
-
-function persistStop(o) {
-  const d = day();
-  const stop = {
-    id: o.id || ("s" + Date.now()),
-    time: o.time || Date.now(),
-    name: o.name, address: o.address || "", notes: o.notes || "", odo: o.odo || "",
-    lat: o.pos ? +o.pos.coords.latitude.toFixed(6) : null,
-    lng: o.pos ? +o.pos.coords.longitude.toFixed(6) : null
-  };
-  if (o.id) { const i = d.stops.findIndex(s=>s.id===o.id); if (i>=0) d.stops[i] = stop; else d.stops.push(stop); }
-  else d.stops.push(stop);
-  d.stops.sort((a,b)=>a.time-b.time);
-  save(); render();
-  return stop;
-}
-let toastTimer = null;
-function toast(msg) {
-  let el = document.getElementById("toast");
-  if (!el) { el = document.createElement("div"); el.id = "toast"; document.body.appendChild(el); }
-  el.textContent = msg; el.classList.add("show");
-  clearTimeout(toastTimer); toastTimer = setTimeout(()=>el.classList.remove("show"), 2600);
-}
-document.getElementById("saveBtn").onclick = () => {
-  const name = document.getElementById("fName").value.trim();
-  if (!name) { alert("Please enter the restaurant or place name."); return; }
-  const d = day();
-  persistStop({
-    id: editingId || null,
-    time: editingId ? (d.stops.find(s=>s.id===editingId)||{}).time : Date.now(),
-    name, address: document.getElementById("fAddr").value.trim(),
-    notes: document.getElementById("fNotes").value.trim(),
-    odo: document.getElementById("fOdo").value.trim(), pos: pendingPos
-  });
-  closeSheet();
-};
-
-/* Odometer */
-const odoStart = document.getElementById("odoStart"), odoEnd = document.getElementById("odoEnd");
-odoStart.onchange = () => { day().odoStart = odoStart.value.trim(); save(); render(); };
-odoEnd.onchange = () => { day().odoEnd = odoEnd.value.trim(); save(); render(); };
-
-/* Render */
-function stopHTML(s) {
-  return `<div class="stop"><div><div class="t">${fmtTime(s.time)}</div><div class="name">${esc(s.name)}</div>` +
-    (s.address ? `<div class="addr">${esc(s.address)}</div>` : "") +
-    `<div class="meta">${s.lat!=null ? s.lat+", "+s.lng+" · " : ""}${s.odo ? "odo "+esc(s.odo)+" · " : ""}${esc(s.notes||"")}</div></div>` +
-    `<div class="acts">` +
-    (s.lat!=null ? `<a class="iconbtn" style="text-decoration:none;display:inline-block;" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}" title="Open in Google Maps">🗺️</a>` : ``) +
-    `<button class="iconbtn" onclick="editStop('${s.id}')">✏️</button><button class="iconbtn" onclick="delStop('${s.id}')">🗑</button></div></div>`;
-}
-function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-window.editStop = id => { const s = day().stops.find(x=>x.id===id); openSheet({ id, name:s.name, address:s.address, odo:s.odo, notes:s.notes, pos: s.lat!=null?{coords:{latitude:s.lat,longitude:s.lng,accuracy:0}}:null }); };
-window.delStop = id => { if (!confirm("Delete this stop?")) return; const d = day(); d.stops = d.stops.filter(s=>s.id!==id); save(); render(); };
-
-function render() {
-  const d = day();
-  document.getElementById("statStops").textContent = d.stops.length;
-  const a = parseFloat(d.odoStart), b = parseFloat(d.odoEnd);
-  document.getElementById("statKm").textContent = (!isNaN(a) && !isNaN(b) && b >= a) ? (b - a).toFixed(1) : "–";
-  if (document.activeElement !== odoStart) odoStart.value = d.odoStart || "";
-  if (document.activeElement !== odoEnd) odoEnd.value = d.odoEnd || "";
-  document.getElementById("stops").innerHTML = d.stops.length ? d.stops.map(stopHTML).join("") : `<div class="empty">No stops yet today.<br>Tap "Reached there" at your next delivery.</div>`;
-  const keys = Object.keys(db.days).filter(k=>k!==todayKey()).sort().reverse();
-  document.getElementById("past").innerHTML = keys.length ? keys.map(k => {
-    const pd = db.days[k]; const pa = parseFloat(pd.odoStart), pb = parseFloat(pd.odoEnd);
-    const km = (!isNaN(pa)&&!isNaN(pb)&&pb>=pa) ? (pb-pa).toFixed(1)+" km" : "–";
-    return `<details class="day"><summary>${fmtDate(k)} <span class="s">· ${pd.stops.length} stops · ${km}</span></summary>` +
-      (pd.stops.length ? pd.stops.map(stopHTML).join("") : `<div class="empty">No stops.</div>`) + `</details>`;
-  }).join("") : `<div class="empty">Nothing yet.</div>`;
-}
-
-/* Export */
-function download(name, content, mime) {
-  const b = new Blob([content], {type:mime}); const u = URL.createObjectURL(b);
-  const a = document.createElement("a"); a.href = u; a.download = name;
-  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(u); a.remove();}, 500);
-}
-function csvFor(keys) {
-  const rows = [["Date","Time","Restaurant","Address","Latitude","Longitude","Odometer","Notes"]];
-  keys.forEach(k => db.days[k].stops.forEach(s => rows.push([
-    k, fmtTime(s.time), s.name, s.address||"", s.lat==null?"":s.lat, s.lng==null?"":s.lng, s.odo||"", s.notes||""
-  ])));
-  return rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
-}
-document.getElementById("csvToday").onclick = () => download("deliveries-"+todayKey()+".csv", csvFor([todayKey()]), "text/csv");
-document.getElementById("csvAll").onclick = () => download("deliveries-all.csv", csvFor(Object.keys(db.days).sort()), "text/csv");
-document.getElementById("jsonOut").onclick = () => download("delivery-tracker-backup.json", JSON.stringify(db), "application/json");
-document.getElementById("jsonIn").onclick = () => document.getElementById("fileInput").click();
-document.getElementById("fileInput").onchange = e => {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = () => { try { const d = JSON.parse(r.result); if (d && d.days) { db = d; save(); render(); alert("Backup restored."); } else alert("That file doesn't look like a tracker backup."); } catch(err){ alert("Couldn't read that file."); } };
-  r.readAsText(f); e.target.value = "";
-};
-
-render();
-</script>
-
-<script>
-/* Tap the GPS pill to test / trigger the permission prompt */
-document.getElementById("gpsPill").addEventListener("click", () => {
-  setGps("busy", "Asking for location…");
-  getGPS().then(pos => {
-    const c = pos.coords;
-    setGps("ok", "GPS ready (" + c.latitude.toFixed(4) + ", " + c.longitude.toFixed(4) + ")");
-  }).catch(gpsErr ? (e => setGps("bad", gpsErr(e))) : (() => setGps("bad", "GPS failed")));
+/* ============ utils ============ */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function fmtTime(ts){const d=new Date(ts);let h=d.getHours(),m=String(d.getMinutes()).padStart(2,"0");const ap=h>=12?"pm":"am";h=h%12||12;return h+":"+m+" "+ap;}
+function fmtDur(ms){const m=Math.round(ms/60000);if(m<1)return"<1 min";if(m<60)return m+" min";const h=Math.floor(m/60);return h+"h "+(m%60)+"m";}
+function dayKey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function fmtDay(k){const d=new Date(k+"T12:00:00");return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});}
+function havKm(a,b,c,d){const R=6371,t=Math.PI/180;const s=Math.sin((c-a)*t/2)**2+Math.cos(a*t)*Math.cos(c*t)*Math.sin((d-b)*t/2)**2;return 2*R*Math.asin(Math.sqrt(s));}
+let toastT=null;
+function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("show"),2600);}
+$("dateLine").textContent=new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+/* tabs */
+document.querySelectorAll("#tabbar button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#tabbar button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));$("page-"+b.dataset.tab).classList.add("on");
+  if(b.dataset.tab==="trips")renderTrips(); if(b.dataset.tab==="review")renderReview();
 });
-/* Detect in-app browsers / WebViews where geolocation is silently blocked */
-function isWebView() { var ua = navigator.userAgent || ""; if (/DeliveryTracker\//.test(ua)) return false; return /;\s*wv\)|WebView/i.test(ua); }
-(function webviewCheck() {
-  if (!isWebView()) return;
-  var b = document.getElementById("wvBanner");
-  if (b) b.style.display = "";
-  setGps("bad", "In-app browser blocks GPS — open in Chrome");
-  var c = document.getElementById("copyLinkBtn");
-  if (c) c.onclick = function() {
-    var done = function() { toast("Link copied — paste it in Chrome"); };
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(location.href).then(done, function(){ fallbackCopy(); });
-    else fallbackCopy();
-    function fallbackCopy() {
-      var ta = document.createElement("textarea"); ta.value = location.href;
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); } catch (e) {}
-      document.body.removeChild(ta); done();
-    }
-  };
-  var d = document.getElementById("wvDismiss");
-  if (d) d.onclick = function() { b.style.display = "none"; };
-})();
-/* PWA: register service worker for offline + installability */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+
+/* ============ store ============ */
+const KEY="dt2";
+let db={days:{}};
+try{db=JSON.parse(localStorage.getItem(KEY))||{days:{}};}catch(e){db={days:{}};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
+/* legacy v1 import (one-time) */
+try{const v1=JSON.parse(localStorage.getItem("deliveryTrackerV1")||"null");
+if(v1&&v1.days&&!db._v1moved){Object.keys(v1.days).forEach(k=>{if(!db.days[k])db.days[k]={sessions:[],manual:[],odoStart:"",odoEnd:""};
+const dd=db.days[k];(v1.days[k].stops||[]).forEach(s=>dd.manual.push({id:s.id,time:s.time,name:s.name,address:s.address||"",notes:s.notes||"",odo:s.odo||"",lat:s.lat,lng:s.lng}));
+if(v1.days[k].odoStart)dd.odoStart=v1.days[k].odoStart;if(v1.days[k].odoEnd)dd.odoEnd=v1.days[k].odoEnd;});
+db._v1moved=1;save();}}catch(e){}
+function day(k){k=k||dayKey();if(!db.days[k])db.days[k]={sessions:[],manual:[],odoStart:"",odoEnd:""};return db.days[k];}
+
+/* ============ passcode lock ============ */
+const PH="dt_passHash",UK="dt_unlocked",lockEl=$("lock");
+async function hashPass(s){try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("dt::"+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}}catch(e){}
+let h1=0xdeadbeef,h2=0x41c6ce57;const str="dt::"+s;for(let i=0;i<str.length;i++){const ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+return(h2>>>0).toString(16)+(h1>>>0).toString(16);}
+let lockMode="unlock";
+function setLockMode(m){lockMode=m;const t=$("lockTitle"),s=$("lockSub"),go=$("lockGo"),err=$("lockErr");
+err.textContent="";["lockP0","lockP1","lockP2"].forEach(id=>$(id).value="");
+if(m==="setup"){t.textContent="Set your passcode";s.textContent="Only you will know this code.";go.textContent="Save passcode";$("lockL1").style.display="none";$("lockP0").style.display="none";$("lockL2").textContent="Choose a passcode (min 4 characters)";$("lockWrap2").style.display="";}
+else if(m==="change"){t.textContent="Change passcode";s.textContent="Enter your current code, then a new one.";go.textContent="Change passcode";$("lockL1").style.display="";$("lockP0").style.display="";$("lockL2").textContent="New passcode (min 4 characters)";$("lockWrap2").style.display="";}
+else{t.textContent="Enter passcode";s.textContent="This tracker is private.";go.textContent="Unlock";$("lockL1").style.display="none";$("lockP0").style.display="none";$("lockL2").textContent="Passcode";$("lockWrap2").style.display="none";}
+lockEl.style.display="flex";setTimeout(()=>$(m==="change"?"lockP0":"lockP1").focus(),60);}
+$("lockGo").onclick=async()=>{const err=$("lockErr"),p0=$("lockP0").value,p1=$("lockP1").value,p2=$("lockP2").value;err.textContent="";
+try{if(lockMode==="unlock"){if((await hashPass(p1))===localStorage.getItem(PH)){localStorage.setItem(UK,"1");lockEl.style.display="none";}else err.textContent="Wrong passcode. Try again.";}
+else if(lockMode==="setup"){if(p1.length<4)err.textContent="Use at least 4 characters.";else if(p1!==p2)err.textContent="The two codes don't match.";else{localStorage.setItem(PH,await hashPass(p1));localStorage.setItem(UK,"1");lockEl.style.display="none";}}
+else{if((await hashPass(p0))!==localStorage.getItem(PH))err.textContent="Current passcode is wrong.";else if(p1.length<4)err.textContent="Use at least 4 characters.";else if(p1!==p2)err.textContent="The two new codes don't match.";else{localStorage.setItem(PH,await hashPass(p1));lockEl.style.display="none";toast("Passcode changed.");}}}catch(e){err.textContent="Something went wrong. Try again.";}};
+lockEl.addEventListener("keydown",e=>{if(e.key==="Enter")$("lockGo").click();});
+$("lockBtn").onclick=()=>{try{localStorage.removeItem(UK);}catch(e){}setLockMode("unlock");};
+$("changePass").onclick=()=>setLockMode("change");
+try{if(!localStorage.getItem(PH))setLockMode("setup");}catch(e){}
+
+/* ============ GPS + geocode ============ */
+const dot=$("gpsDot"),gtx=$("gpsText");
+function setGps(s,m){dot.className="dot "+s;gtx.textContent=m;}
+if(!("geolocation" in navigator))setGps("bad","GPS not available on this device");
+else if(navigator.permissions&&navigator.permissions.query){navigator.permissions.query({name:"geolocation"}).then(r=>{
+const up=()=>setGps(r.state==="granted"?"ok":r.state==="prompt"?"busy":"bad",r.state==="granted"?"GPS ready":r.state==="prompt"?"GPS will ask permission":"GPS blocked — allow location for Chrome");
+up();r.onchange=up;}).catch(()=>setGps("busy","GPS will ask permission"));}
+else setGps("busy","GPS will ask permission");
+function getGPSOnce(o){return new Promise((res,rej)=>{if(!("geolocation" in navigator)){const e=new Error("unavailable");e.code=0;return rej(e);}navigator.geolocation.getCurrentPosition(res,rej,o);});}
+async function getGPS(){try{return await getGPSOnce({enableHighAccuracy:true,timeout:12000,maximumAge:30000});}catch(e){if(e&&(e.code===2||e.code===3))return await getGPSOnce({enableHighAccuracy:false,timeout:12000,maximumAge:120000});throw e;}}
+function gpsErr(e){if(!e||e.code===0)return"This browser blocked location. Open the page in Chrome itself (not inside another app).";if(e.code===1)return"Location permission was denied. Allow location for Chrome, then retry.";if(e.code===2)return"Couldn't get a GPS fix. Try again near a window or outside.";if(e.code===3)return"GPS timed out. Try again.";return"GPS error: "+(e.message||"unknown");}
+$("gpsPill").onclick=()=>{setGps("busy","Asking for location…");getGPS().then(p=>setGps("ok","GPS ready ("+p.coords.latitude.toFixed(4)+", "+p.coords.longitude.toFixed(4)+")")).catch(e=>setGps("bad",gpsErr(e)));};
+async function reversePhoton(lat,lng){try{const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
+const r=await fetch("https://photon.komoot.io/reverse?lat="+lat+"&lon="+lng+"&lang=en",{signal:c.signal});clearTimeout(t);
+const j=await r.json();const pr=((j.features||[])[0]||{}).properties||{};
+const name=(pr.name&&pr.osm_key!=="highway")?pr.name:"";
+const addr=((pr.housenumber?pr.housenumber+" ":"")+(pr.street||"")+((pr.city||pr.town||pr.village||pr.locality)?", "+(pr.city||pr.town||pr.village||pr.locality):"")).trim().replace(/^,\s*/,"");
+return{name,address:addr};}catch(e){return{name:"",address:""}};}
+async function reverseNominatim(lat,lng){try{const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);
+const r=await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=1",{signal:c.signal});clearTimeout(t);
+const j=await r.json();const a=j.address||{};
+const s=((a.house_number?a.house_number+" ":"")+(a.road||a.pedestrian||a.neighbourhood||"")+((a.city||a.town||a.village||a.suburb)?", "+(a.city||a.town||a.village||a.suburb):"")).trim().replace(/^,/,"").trim();
+return s||j.display_name||"";}catch(e){return"";}}
+
+/* ============ manual stop sheet ============ */
+const modal=$("modal");let pendingPos=null;
+function openSheet(o){pendingPos=o.pos||null;$("sheetTitle").textContent="Log this spot";
+$("fName").value=o.name||"";$("fAddr").value=o.address||"";$("fOdo").value="";$("fNotes").value="";
+const gi=$("gpsInfo"),rt=$("retryGps");
+if(o.pos){gi.textContent="GPS: "+o.pos.coords.latitude.toFixed(6)+", "+o.pos.coords.longitude.toFixed(6)+" (±"+Math.round(o.pos.coords.accuracy)+"m)";rt.style.display="none";}
+else if(o.gpsError){gi.textContent="GPS failed: "+o.gpsError;rt.style.display="";}
+else{gi.textContent="No GPS coordinates — manual entry.";rt.style.display="none";}
+modal.classList.add("open");}
+function closeSheet(){modal.classList.remove("open");pendingPos=null;}
+$("cancelBtn").onclick=closeSheet;modal.addEventListener("click",e=>{if(e.target===modal)closeSheet();});
+$("reachBtn").onclick=async()=>{const b=$("reachBtn");b.disabled=true;b.textContent="Getting GPS…";setGps("busy","Locating…");
+try{const pos=await getGPS();setGps("ok","GPS ready");b.textContent="Looking up address…";
+const lat=pos.coords.latitude,lng=pos.coords.longitude;
+const[ph,nm]=await Promise.all([reversePhoton(lat,lng),reverseNominatim(lat,lng)]);
+const address=ph.address||nm,name=ph.name||address||("Stop "+fmtTime(Date.now()));
+const d=day();d.manual.push({id:"m"+Date.now(),time:Date.now(),name,address,notes:"",odo:"",lat:+lat.toFixed(6),lng:+lng.toFixed(6)});save();
+toast("Logged ✓ "+name);}catch(e){const m=gpsErr(e);setGps("bad",m);toast(m);openSheet({gpsError:m});}
+b.disabled=false;b.textContent="📍 Reached there — log this spot now";};
+$("retryGps").onclick=()=>{closeSheet();$("reachBtn").click();};
+$("saveBtn").onclick=()=>{const n=$("fName").value.trim();if(!n){toast("Enter the place name first.");return;}
+const d=day();d.manual.push({id:"m"+Date.now(),time:Date.now(),name:n,address:$("fAddr").value.trim(),notes:$("fNotes").value.trim(),odo:$("fOdo").value.trim(),lat:pendingPos?+pendingPos.coords.latitude.toFixed(6):null,lng:pendingPos?+pendingPos.coords.longitude.toFixed(6):null});
+save();closeSheet();toast("Logged ✓ "+n);};
+
+/* ============ tracking engine ============ */
+const NATIVE=(typeof DTNative!=="undefined")?DTNative:null;
+const STOP_SPEED=1.2,STOP_TIME=45,GO_SPEED=2.2,GO_TIME=8;
+const TRAFFIC_MAX_MS=90000,TRAFFIC_MAX_M=40;
+let TR=null,watchId=null,wl=null,pullTimer=null,persistTimer=null;
+function mkLeg(t,la,ln){return{id:"l"+t+Math.floor(Math.random()*900+100),t0:t,t1:t,la0:la,ln0:ln,la1:la,ln1:ln,km:0,g:null,pts:[]};}
+function mkStop(t,la,ln){return{id:"s"+t,t0:t,t1:t,la0:la,ln0:ln,lat:la,lng:ln,kind:"unknown",name:"",address:""};}
+async function keepAwake(){try{if("wakeLock" in navigator){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{if(TR)keepAwake();});}}catch(e){}}
+function watchStart(){if(!("geolocation" in navigator))return;try{watchId=navigator.geolocation.watchPosition(p=>{const c=p.coords;ingestPoint({t:p.timestamp||Date.now(),lat:c.latitude,lng:c.longitude,acc:c.accuracy||999,spd:c.speed==null?-1:c.speed});},()=>{},{enableHighAccuracy:true,maximumAge:5000,timeout:25000});}catch(e){}}
+function watchStop(){if(watchId!=null){try{navigator.geolocation.clearWatch(watchId);}catch(e){}watchId=null;}}
+function showLive(on){$("idleBox").style.display=on?"none":"";$("liveBox").style.display=on?"":"none";}
+function liveUI(spd){$("liveSpeed").textContent=Math.round(spd*3.6);if(TR){$("liveKm").textContent=TR.km.toFixed(1);$("liveStops").textContent=TR.stops.length;}}
+function startShift(){
+  if(TR){toast("Shift already running.");return;}
+  if(NATIVE){
+    const bp=NATIVE.bgPermission();
+    if(bp==="denied"){toast("Allow location permission first, then start.");return;}
+    if(bp==="settings"&&confirm("For tracking with the screen off, set Location to 'Allow all the time' on the next screen. Open settings now?"))NATIVE.openLocationSettings();
+    try{NATIVE.clearPoints();NATIVE.startTracking();}catch(e){}
+  }
+  TR={t0:Date.now(),legs:[],stops:[],gaps:[],mode:"moving",cur:null,stopCur:null,slowSince:0,goSince:0,lastPt:null,lastIngest:0,km:0,day:dayKey()};
+  keepAwake();watchStart();
+  pullTimer=setInterval(pullNative,30000);persistTimer=setInterval(persistTR,15000);
+  showLive(true);
+  $("trackHint").textContent=NATIVE?"Tracking — keeps going with the screen off":"Tracking — keep this page open while driving";
+  toast("Shift started — just drive!");
 }
+function endShift(){
+  if(!TR)return;
+  finishCur();
+  const s={id:"ss"+TR.t0,t0:TR.t0,t1:Date.now(),legs:TR.legs,stops:TR.stops,gaps:TR.gaps};
+  const d=day(TR.day);d.sessions.push(s);save();
+  if(NATIVE){try{NATIVE.stopTracking();}catch(e){}}
+  watchStop();clearInterval(pullTimer);clearInterval(persistTimer);
+  try{localStorage.removeItem("dt2tr");}catch(e){}
+  if(wl){try{wl.release();}catch(e){}wl=null;}
+  TR=null;showLive(false);renderTrips();renderReview();renderTodayTrips();
+  toast("Shift ended — "+s.legs.length+" trips, "+s.legs.reduce((a,l)=>a+l.km,0).toFixed(1)+" km");
+}
+function finishCur(){if(!TR)return;const n=Date.now();if(TR.mode==="moving")endLeg(n);else endStop(n);}
+function endLeg(t){const c=TR.cur;TR.cur=null;if(!c)return;c.t1=t;
+  if(c.km<0.05&&(c.t1-c.t0)<60000)return;
+  c.g=c.id;TR.legs.push(c);}
+function startStop(p){TR.stopCur=mkStop(p.t,p.lat,p.lng);TR.mode="stopped";}
+function endStop(t){const s=TR.stopCur;TR.stopCur=null;if(!s)return;s.t1=t;
+  const dur=s.t1-s.t0,disp=havKm(s.la0,s.ln0,s.lat,s.lng)*1000;
+  s.kind=(dur<=TRAFFIC_MAX_MS&&disp<=TRAFFIC_MAX_M)?"traffic":"real";
+  TR.stops.push(s);
+  if(s.kind==="real")reversePhoton(s.lat,s.lng).then(r=>{s.name=r.name;s.address=r.address||"";save();if($("page-review").classList.contains("on"))renderReview();});
+}
+function startLeg(p){TR.cur=mkLeg(p.t,p.lat,p.lng);TR.mode="moving";}
+function ingestPoint(p){
+  if(!TR||!(p.lat&&p.lng))return;
+  if(p.t<=TR.lastIngest)return;
+  if(p.acc>150){TR.lastIngest=Math.max(TR.lastIngest,p.t);return;}
+  if(TR.lastIngest&&p.t-TR.lastIngest>120000)TR.gaps.push({t0:TR.lastIngest,t1:p.t});
+  const L=TR.lastPt,dist=L?havKm(L.lat,L.lng,p.lat,p.lng):0;
+  const spd=p.spd>=0?p.spd:(L&&p.t>L.t?dist/((p.t-L.t)/1000):0);
+  if(!TR.cur&&TR.mode==="moving")TR.cur=mkLeg(p.t,p.lat,p.lng);
+  if(TR.mode==="moving"){
+    if(spd<STOP_SPEED){TR.slowSince=TR.slowSince||p.t;
+      if(p.t-TR.slowSince>=STOP_TIME*1000){endLeg(p.t);startStop(p);TR.slowSince=0;}
+    }else TR.slowSince=0;
+  }else{
+    const s=TR.stopCur;if(s){s.t1=p.t;s.lat=p.lat;s.lng=p.lng;}
+    if(spd>GO_SPEED){TR.goSince=TR.goSince||p.t;
+      if(p.t-TR.goSince>=GO_TIME*1000){endStop(p.t);startLeg(p);TR.goSince=0;}
+    }else TR.goSince=0;
+  }
+  if(TR.mode==="moving"&&TR.cur){const c=TR.cur;c.t1=p.t;c.la1=p.lat;c.ln1=p.lng;c.km+=dist;TR.km+=dist;
+    if(!L||p.t-L.t>=4000||dist>=0.01){c.pts.push([Math.round(p.t/1000),+p.lat.toFixed(5),+p.lng.toFixed(5)]);if(c.pts.length>1500)c.pts.shift();}}
+  TR.lastPt={t:p.t,lat:p.lat,lng:p.lng};TR.lastIngest=p.t;liveUI(spd);
+}
+function pullNative(){if(!TR||!NATIVE)return;try{const arr=JSON.parse(NATIVE.getPointsJson(TR.lastIngest||0));if(arr&&arr.length)arr.forEach(ingestPoint);}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&TR){pullNative();keepAwake();}});
+function persistTR(){if(!TR)return;try{const c=JSON.parse(JSON.stringify(TR));if(c.cur)c.cur.pts=(c.cur.pts||[]).slice(-20);(c.legs||[]).forEach(l=>l.pts=(l.pts||[]).slice(-20));localStorage.setItem("dt2tr",JSON.stringify(c));}catch(e){}}
+function restoreTR(){try{const c=JSON.parse(localStorage.getItem("dt2tr")||"null");if(!c||Date.now()-c.t0>12*3600000||!c.day)return;
+  TR=c;TR.slowSince=0;TR.goSince=0;TR.lastPt=null;showLive(true);keepAwake();watchStart();
+  pullTimer=setInterval(pullNative,30000);persistTimer=setInterval(persistTR,15000);
+  $("trackHint").textContent="Shift restored — tracking continues";pullNative();toast("Shift restored");}catch(e){}}
+
+/* ============ review / trips / history / export ============ */
+function dayLegsStops(k){const d=day(k);let legs=[],stops=[];
+  d.sessions.forEach(s=>{legs=legs.concat(s.legs);stops=stops.concat(s.stops);});
+  if(TR&&TR.day===k){legs=legs.concat(TR.legs);stops=stops.concat(TR.stops);
+    if(TR.cur&&TR.cur.km>0.05)legs.push(Object.assign({},TR.cur,{live:true}));if(TR.stopCur)stops.push(TR.stopCur);}
+  legs.sort((a,b)=>a.t0-b.t0);stops.sort((a,b)=>a.t0-b.t0);return{legs,stops};}
+function groupTrips(legs){const groups={};
+  legs.forEach(l=>{const g=l.g||l.id;if(!groups[g])groups[g]=[];groups[g].push(l);});
+  return Object.values(groups).map(ls=>{ls.sort((a,b)=>a.t0-b.t0);
+    return{t0:ls[0].t0,t1:ls[ls.length-1].t1,km:ls.reduce((a,l)=>a+l.km,0),n:ls.length,legs:ls};}).sort((a,b)=>a.t0-b.t0);}
+function routeFor(t,stops){const before=stops.filter(s=>s.kind==="real"&&s.t1<=t.t0).pop();
+  const after=stops.find(s=>s.kind==="real"&&s.t0>=t.t1);
+  return esc(before?(before.name||before.address||"Stop"):"Start")+" → "+esc(after?(after.name||after.address||"Stop"):"End");}
+const CAR='<svg viewBox="0 0 24 24"><path d="M5 17h14M6 17l1.5-5h9L18 17M8 12V8h8v4M7.5 20v-3M16.5 20v-3"/></svg>';
+function tripRow(t,route){return `<div class="trip"><div class="row"><div class="ticon">${CAR}</div><div class="tmain"><div class="t">${fmtTime(t.t0)} → ${fmtTime(t.t1)}</div><div class="r">${route}</div><div class="s">${t.n>1?t.n+" legs merged · ":""}${fmtDur(t.t1-t.t0)}</div></div><div class="tkm"><div class="k">${t.km.toFixed(1)} km</div><div class="c">›</div></div></div></div>`;}
+let revSel=new Set();
+function renderReview(){
+  const k=$("revDay").value||dayKey(),{legs,stops}=dayLegsStops(k),trips=groupTrips(legs);
+  $("revTrips").textContent=trips.length;
+  $("revKm").textContent=trips.reduce((a,t)=>a+t.km,0).toFixed(1);
+  $("revLights").textContent=stops.filter(s=>s.kind==="traffic").length;
+  const items=[];trips.forEach(t=>items.push({ty:"trip",t0:t.t0,o:t}));stops.forEach(s=>items.push({ty:"stop",t0:s.t0,o:s}));
+  items.sort((a,b)=>a.t0-b.t0);
+  let h="";
+  items.forEach(it=>{
+    if(it.ty==="trip"){const t=it.o,sel=t.legs.every(l=>revSel.has(l.id));
+      h+=`<div class="trip" style="margin-top:8px"><div class="row tl-item${sel?" sel":""}" data-legs="${t.legs.map(l=>l.id).join(",")}"><div class="tick">${sel?"✓":""}</div><div class="ticon">${CAR}</div><div class="tmain"><div class="t">${fmtTime(t.t0)} → ${fmtTime(t.t1)}</div><div class="r">${routeFor(t,stops)}</div><div class="s">${t.n>1?t.n+" legs merged · ":""}${fmtDur(t.t1-t.t0)}</div></div><div class="tkm"><div class="k">${t.km.toFixed(1)} km</div></div></div></div>`;
+    }else{const s=it.o;
+      const tag=s.kind==="traffic"?'<span class="tag traffic">🚦 light stop</span>':s.kind==="real"?'<span class="tag real">📍 '+esc(s.name||"stop")+"</span>":'<span class="tag">stop</span>';
+      h+=`<div style="display:flex;gap:10px;align-items:center;padding:6px 14px"><div style="width:22px;flex-shrink:0"></div><div class="tmain"><div class="s">${fmtTime(s.t0)} · ${fmtDur(s.t1-s.t0)}</div><div style="margin-top:3px">${tag}</div>${s.address?`<div class="s">${esc(s.address)}</div>`:""}</div></div>`;
+    }});
+  $("revTimeline").innerHTML=h||`<div class="empty">No tracked trips this day.<br>Start a shift and just drive.</div>`;
+  $("mergeCard").style.display=revSel.size?"":"none";
+  document.querySelectorAll("#revTimeline .tl-item").forEach(el=>el.onclick=()=>{el.dataset.legs.split(",").forEach(id=>revSel.has(id)?revSel.delete(id):revSel.add(id));renderReview();});
+}
+$("mergeSelBtn").onclick=()=>{if(revSel.size<2){toast("Select at least 2 trips.");return;}
+  const k=$("revDay").value||dayKey(),g="g"+Date.now();let n=0;
+  day(k).sessions.forEach(s=>s.legs.forEach(l=>{if(revSel.has(l.id)){l.g=g;n++;}}));
+  if(TR&&TR.day===k)TR.legs.forEach(l=>{if(revSel.has(l.id)){l.g=g;n++;}});
+  revSel.clear();save();renderReview();renderTrips();renderTodayTrips();toast("Merged "+n+" trips ✓");};
+$("mergeClearBtn").onclick=()=>{revSel.clear();renderReview();};
+$("mergeLightsBtn").onclick=()=>{const k=$("revDay").value||dayKey(),{legs,stops}=dayLegsStops(k),trips=groupTrips(legs);let merges=0;
+  for(let i=0;i<trips.length-1;i++){const a=trips[i],b=trips[i+1];
+    const between=stops.filter(s=>s.t0>=a.t1&&s.t0<=b.t0);
+    if(between.length&&between.every(s=>s.kind==="traffic")){
+      const g=a.legs[0].g||a.legs[0].id;b.legs.forEach(l=>l.g=g);merges++;
+      a.legs.push(...b.legs);a.t1=b.t1;a.km+=b.km;a.n+=b.n;trips.splice(i+1,1);i--;}}
+  save();revSel.clear();renderReview();renderTrips();renderTodayTrips();
+  toast(merges?("Merged "+merges+" light-stop split"+(merges>1?"s":"")+" ✓"):"No light-stop splits found");};
+function renderTrips(){
+  const keys=Object.keys(db.days).sort().reverse();let h="";
+  keys.forEach(k=>{const{legs,stops}=dayLegsStops(k);if(!legs.length)return;
+    const trips=groupTrips(legs),km=trips.reduce((a,t)=>a+t.km,0);
+    h+=`<div class="dayhead"><div class="d">${fmtDay(k)}</div><div class="s">${trips.length} trips · ${km.toFixed(1)} km</div></div>`;
+    trips.forEach(t=>{h+=tripRow(t,routeFor(t,stops));});});
+  $("tripsNew").innerHTML=h||`<div class="empty">No trips yet.<br>Start a shift on the Track tab.</div>`;
+  renderTodayTrips();
+}
+function renderTodayTrips(){const{legs,stops}=dayLegsStops(dayKey()),trips=groupTrips(legs);
+  $("todayTrips").innerHTML=trips.length?trips.map(t=>tripRow(t,routeFor(t,stops))).join(""):`<div class="empty">Nothing yet today.</div>`;}
+document.querySelectorAll("#tripSeg button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#tripSeg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+  const v=b.dataset.v;$("tripsNew").style.display=v==="new"?"":"none";$("tripsHist").style.display=v==="hist"?"":"none";
+  if(v==="hist")renderHist();});
+let HIST=null;
+async function loadHist(){if(HIST)return HIST;$("histStatus").textContent="Loading history…";
+  try{const r=await fetch("data/drive-deduct/trips_2026.json");HIST=await r.json();
+    try{const r2=await fetch("data/drive-deduct/trips_2025.json");HIST=HIST.concat(await r2.json());}catch(e){}
+    $("histStatus").textContent=HIST.length.toLocaleString()+" trips loaded from backup.";
+  }catch(e){HIST=[];$("histStatus").textContent="Couldn't load history.";}
+  return HIST;}
+async function renderHist(){const h=await loadHist(),ms=$("histMonth");if(!h.length)return;
+  if(!ms.options.length){[...new Set(h.map(t=>(t.date||"").slice(0,7)))].filter(Boolean).sort().reverse()
+    .forEach(m=>{const o=document.createElement("option");o.value=m;o.textContent=m;ms.appendChild(o);});}
+  const m=ms.value,rows=h.filter(t=>(t.date||"").slice(0,7)===m),byDay={};
+  rows.forEach(t=>{(byDay[t.date]=byDay[t.date]||[]).push(t);});
+  let html="";
+  Object.keys(byDay).sort().reverse().forEach(d=>{const ts=byDay[d],km=ts.reduce((a,t)=>a+(+t.kilometres||0),0);
+    html+=`<div class="dayhead"><div class="d">${fmtDay(d)}</div><div class="s">${ts.length} trips · ${km.toFixed(1)} km</div></div>`;
+    ts.forEach(t=>{html+=`<div class="trip"><div class="row"><div class="ticon">${CAR}</div><div class="tmain"><div class="t">${esc(t.start_time||"")+" → "+esc(t.end_time||"")}</div><div class="r">${esc(t.start_location||"")+" → "+esc(t.end_location||"")}</div></div><div class="tkm"><div class="k">${(+t.kilometres||0).toFixed(1)} km</div><div class="c">›</div></div></div></div>`;});});
+  $("histList").innerHTML=html||`<div class="empty">No trips this month.</div>`;}
+$("histMonth").onchange=renderHist;
+function download(n,c,m){const b=new Blob([c],{type:m}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove();},600);}
+function csvRows(keys){const rows=[["Date","Start","End","Km","Legs","Route","Type"]];
+  keys.forEach(k=>{const{legs,stops}=dayLegsStops(k);
+    groupTrips(legs).forEach(t=>rows.push([k,fmtTime(t.t0),fmtTime(t.t1),t.km.toFixed(1),t.n,routeFor(t,stops).replace(/ → /g," > "),"auto"]));
+    (day(k).manual||[]).forEach(s=>rows.push([k,fmtTime(s.time),"","","","",("manual: "+s.name+(s.address?" | "+s.address:""))]));});
+  return rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");}
+$("csvToday").onclick=()=>download("deliveries-"+dayKey()+".csv",csvRows([dayKey()]),"text/csv");
+$("csvAll").onclick=()=>download("deliveries-all.csv",csvRows(Object.keys(db.days).sort()),"text/csv");
+$("jsonOut").onclick=()=>download("delivery-tracker-backup.json",JSON.stringify(db),"application/json");
+$("jsonIn").onclick=()=>$("fileInput").click();
+$("fileInput").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(d&&d.days){db=d;save();renderTrips();renderReview();toast("Backup restored.");}else toast("Not a tracker backup.");}catch(err){toast("Couldn't read that file.");}};
+  r.readAsText(f);e.target.value="";};
+const odoS=$("odoStart"),odoE=$("odoEnd");
+odoS.onchange=()=>{day().odoStart=odoS.value.trim();save();};
+odoE.onchange=()=>{day().odoEnd=odoE.value.trim();save();};
+/* webview banner + copy link */
+(function(){var ua=navigator.userAgent||"";if(/DeliveryTracker\//.test(ua))return;
+  if(/;\s*wv\)|WebView/i.test(ua)){var b=$("wvBanner");if(b)b.style.display="";
+    var c=$("copyLinkBtn");if(c)c.onclick=function(){var done=function(){toast("Link copied — paste it in Chrome");};
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(location.href).then(done,done);else done();};}})();
+/* init */
+$("shiftBtn").onclick=startShift;
+$("shiftBtnStop").onclick=()=>{if(confirm("End this shift?"))endShift();};
+$("revDay").value=dayKey();
+$("revDay").onchange=()=>{revSel.clear();renderReview();};
+(function(){const d=day();odoS.value=d.odoStart||"";odoE.value=d.odoEnd||"";})();
+restoreTR();renderTrips();renderReview();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 
 <script>
-/* In-app update check: compares this build against version.json on the server.
-   When a new version is deployed, shows a banner instead of silently changing. */
 (function(){
-  var VER = "2026.09.23-1";
+  var VER = "2026.09.23-2";
   async function check(){
     try{
       var r = await fetch("version.json?_=" + Date.now());

@@ -507,7 +507,7 @@ document.getElementById("gpsPill").addEventListener("click", () => {
   }).catch(gpsErr ? (e => setGps("bad", gpsErr(e))) : (() => setGps("bad", "GPS failed")));
 });
 /* Detect in-app browsers / WebViews where geolocation is silently blocked */
-function isWebView() { return /;\s*wv\)|WebView/i.test(navigator.userAgent || ""); }
+function isWebView() { var ua = navigator.userAgent || ""; if (/DeliveryTracker\//.test(ua)) return false; return /;\s*wv\)|WebView/i.test(ua); }
 (function webviewCheck() {
   if (!isWebView()) return;
   var b = document.getElementById("wvBanner");

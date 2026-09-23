@@ -1,5 +1,5 @@
 /* Delivery Tracker service worker — offline app shell (v5) */
-const CACHE = "dt-v7";
+const CACHE = "dt-v8";
 const ASSETS = [
   "./manifest.json",
   "./icon-192.png",

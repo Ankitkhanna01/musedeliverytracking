@@ -131,7 +131,12 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:1
 <button id="lockBtn" class="lockbtn">🔒 Lock</button></header>
 <main>
 <section class="page on" id="page-track">
-  <div class="card glow" id="shiftCard">
+  <div class="card glow">
+    <h2>Log a stop</h2>
+    <button class="btn primary" id="reachBtn">📍 Reached there — log this spot now</button>
+    <div class="hint">Tap at every delivery — the name &amp; address fill in automatically, just confirm.</div>
+  </div>
+  <div class="card" id="shiftCard">
     <h2>Auto tracking</h2>
     <div id="idleBox">
       <div class="empty" style="padding:6px 0 2px">Tap start when you begin driving.<br>Every stop and start is recorded automatically.</div>
@@ -149,10 +154,7 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:1
       <button class="btn danger" id="shiftBtnStop">■ End shift</button>
     </div>
   </div>
-  <div class="card"><h2>Manual stop</h2>
-    <button class="btn ghost" id="reachBtn">📍 Reached there — log this spot now</button>
-    <div class="hint">Backup for when you want to pin a stop yourself.</div></div>
-  <div class="card"><h2>Today's auto trips</h2><div id="todayTrips"></div></div>
+  <div class="card"><h2>Today</h2><div id="todayTrips"></div></div>
 </section>
 <section class="page" id="page-trips">
   <div class="seg" id="tripSeg"><button data-v="new" class="on">My trips</button><button data-v="hist">History</button></div>
@@ -189,7 +191,7 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:1
     <div class="btnrow"><button class="btn ghost sm" id="jsonOut">Backup</button><button class="btn ghost sm" id="jsonIn">Restore</button></div>
     <input type="file" id="fileInput" accept="application/json" style="display:none">
     <div class="btnrow"><button class="btn ghost sm" id="changePass">Change passcode</button></div>
-    <div class="hint">v2.0 · auto-tracking build<br>Export your CSV regularly — it's your tax record.</div></div>
+    <div class="hint">v2.1 · auto-tracking + stop logging<br>Export your CSV regularly — it's your tax record.</div></div>
 </section>
 </main>
 <div id="tabbar"><div class="in">
@@ -300,14 +302,13 @@ $("reachBtn").onclick=async()=>{const b=$("reachBtn");b.disabled=true;b.textCont
 try{const pos=await getGPS();setGps("ok","GPS ready");b.textContent="Looking up address…";
 const lat=pos.coords.latitude,lng=pos.coords.longitude;
 const[ph,nm]=await Promise.all([reversePhoton(lat,lng),reverseNominatim(lat,lng)]);
-const address=ph.address||nm,name=ph.name||address||("Stop "+fmtTime(Date.now()));
-const d=day();d.manual.push({id:"m"+Date.now(),time:Date.now(),name,address,notes:"",odo:"",lat:+lat.toFixed(6),lng:+lng.toFixed(6)});save();
-toast("Logged ✓ "+name);}catch(e){const m=gpsErr(e);setGps("bad",m);toast(m);openSheet({gpsError:m});}
+openSheet({pos,name:ph.name||"",address:ph.address||nm||""});
+toast("Confirm the stop name, then save.");}catch(e){const m=gpsErr(e);setGps("bad",m);toast(m);openSheet({gpsError:m});}
 b.disabled=false;b.textContent="📍 Reached there — log this spot now";};
 $("retryGps").onclick=()=>{closeSheet();$("reachBtn").click();};
 $("saveBtn").onclick=()=>{const n=$("fName").value.trim();if(!n){toast("Enter the place name first.");return;}
 const d=day();d.manual.push({id:"m"+Date.now(),time:Date.now(),name:n,address:$("fAddr").value.trim(),notes:$("fNotes").value.trim(),odo:$("fOdo").value.trim(),lat:pendingPos?+pendingPos.coords.latitude.toFixed(6):null,lng:pendingPos?+pendingPos.coords.longitude.toFixed(6):null});
-save();closeSheet();toast("Logged ✓ "+n);};
+save();closeSheet();renderTodayTrips();renderTrips();renderReview();toast("Logged ✓ "+n);};
 
 /* ============ tracking engine ============ */
 const NATIVE=(typeof DTNative!=="undefined")?DTNative:null;
@@ -404,6 +405,8 @@ function routeFor(t,stops){const before=stops.filter(s=>s.kind==="real"&&s.t1<=t
   const after=stops.find(s=>s.kind==="real"&&s.t0>=t.t1);
   return esc(before?(before.name||before.address||"Stop"):"Start")+" → "+esc(after?(after.name||after.address||"Stop"):"End");}
 const CAR='<svg viewBox="0 0 24 24"><path d="M5 17h14M6 17l1.5-5h9L18 17M8 12V8h8v4M7.5 20v-3M16.5 20v-3"/></svg>';
+const PIN='<svg viewBox="0 0 24 24"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+function manualRow(s){return `<div class="trip"><div class="row"><div class="ticon">${PIN}</div><div class="tmain"><div class="t">${fmtTime(s.time)}</div><div class="r">${esc(s.name)}${s.address?" · "+esc(s.address):""}</div>${s.notes?`<div class="s">${esc(s.notes)}</div>`:""}${s.odo?`<div class="s">odo ${esc(s.odo)}</div>`:""}</div><div class="tkm"><div class="tag real">manual</div></div></div></div>`;}
 function tripRow(t,route){return `<div class="trip"><div class="row"><div class="ticon">${CAR}</div><div class="tmain"><div class="t">${fmtTime(t.t0)} → ${fmtTime(t.t1)}</div><div class="r">${route}</div><div class="s">${t.n>1?t.n+" legs merged · ":""}${fmtDur(t.t1-t.t0)}</div></div><div class="tkm"><div class="k">${t.km.toFixed(1)} km</div><div class="c">›</div></div></div></div>`;}
 let revSel=new Set();
 function renderReview(){
@@ -412,11 +415,14 @@ function renderReview(){
   $("revKm").textContent=trips.reduce((a,t)=>a+t.km,0).toFixed(1);
   $("revLights").textContent=stops.filter(s=>s.kind==="traffic").length;
   const items=[];trips.forEach(t=>items.push({ty:"trip",t0:t.t0,o:t}));stops.forEach(s=>items.push({ty:"stop",t0:s.t0,o:s}));
+  (day(k).manual||[]).forEach(s=>items.push({ty:"mstop",t0:s.time,o:s}));
   items.sort((a,b)=>a.t0-b.t0);
   let h="";
   items.forEach(it=>{
     if(it.ty==="trip"){const t=it.o,sel=t.legs.every(l=>revSel.has(l.id));
       h+=`<div class="trip" style="margin-top:8px"><div class="row tl-item${sel?" sel":""}" data-legs="${t.legs.map(l=>l.id).join(",")}"><div class="tick">${sel?"✓":""}</div><div class="ticon">${CAR}</div><div class="tmain"><div class="t">${fmtTime(t.t0)} → ${fmtTime(t.t1)}</div><div class="r">${routeFor(t,stops)}</div><div class="s">${t.n>1?t.n+" legs merged · ":""}${fmtDur(t.t1-t.t0)}</div></div><div class="tkm"><div class="k">${t.km.toFixed(1)} km</div></div></div></div>`;
+    }else if(it.ty==="mstop"){const s=it.o;
+      h+=`<div style="display:flex;gap:10px;align-items:center;padding:6px 14px"><div style="width:22px;flex-shrink:0"></div><div class="tmain"><div class="s">${fmtTime(s.time)}</div><div style="margin-top:3px"><span class="tag real">📍 ${esc(s.name)}</span></div>${s.address?`<div class="s">${esc(s.address)}</div>`:""}${s.notes?`<div class="s">${esc(s.notes)}</div>`:""}</div></div>`;
     }else{const s=it.o;
       const tag=s.kind==="traffic"?'<span class="tag traffic">🚦 light stop</span>':s.kind==="real"?'<span class="tag real">📍 '+esc(s.name||"stop")+"</span>":'<span class="tag">stop</span>';
       h+=`<div style="display:flex;gap:10px;align-items:center;padding:6px 14px"><div style="width:22px;flex-shrink:0"></div><div class="tmain"><div class="s">${fmtTime(s.t0)} · ${fmtDur(s.t1-s.t0)}</div><div style="margin-top:3px">${tag}</div>${s.address?`<div class="s">${esc(s.address)}</div>`:""}</div></div>`;
@@ -441,15 +447,24 @@ $("mergeLightsBtn").onclick=()=>{const k=$("revDay").value||dayKey(),{legs,stops
   toast(merges?("Merged "+merges+" light-stop split"+(merges>1?"s":"")+" ✓"):"No light-stop splits found");};
 function renderTrips(){
   const keys=Object.keys(db.days).sort().reverse();let h="";
-  keys.forEach(k=>{const{legs,stops}=dayLegsStops(k);if(!legs.length)return;
+  keys.forEach(k=>{const{legs,stops}=dayLegsStops(k),manual=(day(k).manual||[]).slice().sort((a,b)=>a.time-b.time);
+    if(!legs.length&&!manual.length)return;
     const trips=groupTrips(legs),km=trips.reduce((a,t)=>a+t.km,0);
-    h+=`<div class="dayhead"><div class="d">${fmtDay(k)}</div><div class="s">${trips.length} trips · ${km.toFixed(1)} km</div></div>`;
-    trips.forEach(t=>{h+=tripRow(t,routeFor(t,stops));});});
+    h+=`<div class="dayhead"><div class="d">${fmtDay(k)}</div><div class="s">${manual.length} stops · ${trips.length} trips · ${km.toFixed(1)} km</div></div>`;
+    trips.forEach(t=>{h+=tripRow(t,routeFor(t,stops));});
+    manual.forEach(s=>{h+=manualRow(s);});});
   $("tripsNew").innerHTML=h||`<div class="empty">No trips yet.<br>Start a shift on the Track tab.</div>`;
   renderTodayTrips();
 }
-function renderTodayTrips(){const{legs,stops}=dayLegsStops(dayKey()),trips=groupTrips(legs);
-  $("todayTrips").innerHTML=trips.length?trips.map(t=>tripRow(t,routeFor(t,stops))).join(""):`<div class="empty">Nothing yet today.</div>`;}
+function renderTodayTrips(){const k=dayKey(),{legs,stops}=dayLegsStops(k),trips=groupTrips(legs),
+  manual=(day(k).manual||[]).slice().sort((a,b)=>a.time-b.time),items=[];
+  trips.forEach(t=>items.push({t0:t.t0,h:tripRow(t,routeFor(t,stops))}));
+  manual.forEach(s=>items.push({t0:s.time,h:manualRow(s)}));
+  items.sort((a,b)=>a.t0-b.t0);
+  const km=trips.reduce((a,t)=>a+t.km,0);
+  $("todayTrips").innerHTML=(items.length)
+    ?`<div class="dayhead" style="margin-top:2px"><div class="d">Today</div><div class="s">${manual.length} stops · ${trips.length} auto trips · ${km.toFixed(1)} km</div></div>`+items.map(i=>i.h).join("")
+    :`<div class="empty">Nothing yet today.<br>Tap "Reached there" at each stop, or start a shift.</div>`;}
 document.querySelectorAll("#tripSeg button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("#tripSeg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
   const v=b.dataset.v;$("tripsNew").style.display=v==="new"?"":"none";$("tripsHist").style.display=v==="hist"?"":"none";
@@ -500,12 +515,13 @@ $("revDay").value=dayKey();
 $("revDay").onchange=()=>{revSel.clear();renderReview();};
 (function(){const d=day();odoS.value=d.odoStart||"";odoE.value=d.odoEnd||"";})();
 restoreTR();renderTrips();renderReview();
+try{if(typeof DTNative!=="undefined"){var hb=document.querySelector("#idleBox .hint");if(hb)hb.textContent="Tracking keeps running with the screen off — the notification shows while a shift is active.";}}catch(e){}
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 
 <script>
 (function(){
-  var VER = "2026.09.23-2";
+  var VER = "2026.09.23-3";
   async function check(){
     try{
       var r = await fetch("version.json?_=" + Date.now());

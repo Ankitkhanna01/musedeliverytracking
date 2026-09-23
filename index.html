@@ -44,6 +44,8 @@
   }
   #reachBtn:active { transform: scale(.98); }
   #reachBtn:disabled { opacity: .6; }
+  #toast { position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%) translateY(16px); background: #111; color: #fff; padding: 12px 18px; border-radius: 999px; font-size: 14px; max-width: 88vw; text-align: center; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 99; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .sub { text-align: center; font-size: 13px; color: #6b7280; margin-top: 10px; }
   .sub button { background: none; border: 0; color: #4338ca; font-weight: 700; font-size: 13px; cursor: pointer; padding: 6px; }
   .row { display: flex; gap: 10px; }
@@ -342,7 +344,9 @@ document.getElementById("reachBtn").onclick = async () => {
     setGps("ok","GPS ready");
     btn.textContent = "Looking up address…";
     const address = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
-    openSheet({ pos, address });
+    const name = address || ("Stop " + fmtTime(Date.now()));
+    persistStop({ name, address, pos });
+    toast("Logged ✓ " + name);
   } catch(e) {
     setGps("bad","GPS blocked — allow location for Chrome");
     openSheet({ gpsError: gpsErr(e) });
@@ -352,23 +356,40 @@ document.getElementById("reachBtn").onclick = async () => {
 document.getElementById("retryGps").onclick = () => { closeSheet(); document.getElementById("reachBtn").click(); };
 document.getElementById("manualBtn").onclick = () => openSheet({});
 
+function persistStop(o) {
+  const d = day();
+  const stop = {
+    id: o.id || ("s" + Date.now()),
+    time: o.time || Date.now(),
+    name: o.name, address: o.address || "", notes: o.notes || "", odo: o.odo || "",
+    lat: o.pos ? +o.pos.coords.latitude.toFixed(6) : null,
+    lng: o.pos ? +o.pos.coords.longitude.toFixed(6) : null
+  };
+  if (o.id) { const i = d.stops.findIndex(s=>s.id===o.id); if (i>=0) d.stops[i] = stop; else d.stops.push(stop); }
+  else d.stops.push(stop);
+  d.stops.sort((a,b)=>a.time-b.time);
+  save(); render();
+  return stop;
+}
+let toastTimer = null;
+function toast(msg) {
+  let el = document.getElementById("toast");
+  if (!el) { el = document.createElement("div"); el.id = "toast"; document.body.appendChild(el); }
+  el.textContent = msg; el.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>el.classList.remove("show"), 2600);
+}
 document.getElementById("saveBtn").onclick = () => {
   const name = document.getElementById("fName").value.trim();
   if (!name) { alert("Please enter the restaurant or place name."); return; }
   const d = day();
-  const stop = {
-    id: editingId || ("s" + Date.now()),
-    time: editingId ? d.stops.find(s=>s.id===editingId).time : Date.now(),
+  persistStop({
+    id: editingId || null,
+    time: editingId ? (d.stops.find(s=>s.id===editingId)||{}).time : Date.now(),
     name, address: document.getElementById("fAddr").value.trim(),
     notes: document.getElementById("fNotes").value.trim(),
-    odo: document.getElementById("fOdo").value.trim(),
-    lat: pendingPos ? +pendingPos.coords.latitude.toFixed(6) : null,
-    lng: pendingPos ? +pendingPos.coords.longitude.toFixed(6) : null
-  };
-  if (editingId) { const i = d.stops.findIndex(s=>s.id===editingId); d.stops[i] = stop; }
-  else d.stops.push(stop);
-  d.stops.sort((a,b)=>a.time-b.time);
-  save(); closeSheet(); render();
+    odo: document.getElementById("fOdo").value.trim(), pos: pendingPos
+  });
+  closeSheet();
 };
 
 /* Odometer */

@@ -340,6 +340,21 @@ function closeSheet() { modal.classList.remove("open"); editingId = null; pendin
 document.getElementById("cancelBtn").onclick = closeSheet;
 modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
 
+async function reversePlaceName(lat, lng) {
+  // Free OpenStreetMap place lookup: returns the actual venue name ("McDonald's")
+  // near the coordinates, the way Google Maps would show it.
+  try {
+    const ctl = new AbortController();
+    const to = setTimeout(() => ctl.abort(), 8000);
+    const r = await fetch("https://photon.komoot.io/reverse?lat=" + lat + "&lon=" + lng + "&lang=en", { signal: ctl.signal });
+    clearTimeout(to);
+    const j = await r.json();
+    const f = (j.features || [])[0];
+    const p = f && f.properties;
+    if (!p || !p.name || p.osm_key === "highway") return "";
+    return p.name;
+  } catch (e) { return ""; }
+}
 async function reverseGeocode(lat, lng) {
   try {
     const ctl = new AbortController();
@@ -363,9 +378,10 @@ document.getElementById("reachBtn").onclick = async () => {
     const pos = await getGPS();
     setGps("ok","GPS ready");
     btn.textContent = "Looking up address…";
-    const address = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
-    const name = address || ("Stop " + fmtTime(Date.now()));
-    persistStop({ name, address, pos });
+    const lat = pos.coords.latitude, lng = pos.coords.longitude;
+    const [address, placeName] = await Promise.all([reverseGeocode(lat, lng), reversePlaceName(lat, lng)]);
+    const name = placeName || address || ("Stop " + fmtTime(Date.now()));
+    persistStop({ name, address: placeName && address && placeName !== address ? address : (address || ""), pos });
     toast("Logged ✓ " + name);
   } catch(e) {
     const msg = gpsErr(e);

@@ -1,5 +1,5 @@
 /* Delivery Tracker service worker — offline app shell */
-const CACHE = "dt-v2";
+const CACHE = "dt-v3";
 const ASSETS = [
   "./",
   "./index.html",

@@ -119,6 +119,11 @@
 </style>
 </head>
 <body>
+<div id="wvBanner" style="display:none;background:#fef3c7;color:#92400e;padding:12px 14px;font-size:14px;line-height:1.45;border-bottom:1px solid #fcd34d;">
+  <b>Location is blocked here.</b> You're viewing this inside another app's browser, which can't access GPS.<br>
+  <button id="copyLinkBtn" style="margin-top:8px;background:#0d9488;color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;">Copy link — then paste it in Chrome</button>
+  <button id="wvDismiss" style="margin-top:8px;margin-left:8px;background:transparent;border:1px solid #d1a054;border-radius:8px;padding:8px 12px;font-size:14px;color:#92400e;">Dismiss</button>
+</div>
 <div id="lock"><div class="lockcard">
   <div class="lockicon">🔒</div>
   <h2 id="lockTitle">Enter passcode</h2>
@@ -475,6 +480,28 @@ document.getElementById("gpsPill").addEventListener("click", () => {
     setGps("ok", "GPS ready (" + c.latitude.toFixed(4) + ", " + c.longitude.toFixed(4) + ")");
   }).catch(gpsErr ? (e => setGps("bad", gpsErr(e))) : (() => setGps("bad", "GPS failed")));
 });
+/* Detect in-app browsers / WebViews where geolocation is silently blocked */
+function isWebView() { return /;\s*wv\)|WebView/i.test(navigator.userAgent || ""); }
+(function webviewCheck() {
+  if (!isWebView()) return;
+  var b = document.getElementById("wvBanner");
+  if (b) b.style.display = "";
+  setGps("bad", "In-app browser blocks GPS — open in Chrome");
+  var c = document.getElementById("copyLinkBtn");
+  if (c) c.onclick = function() {
+    var done = function() { toast("Link copied — paste it in Chrome"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(location.href).then(done, function(){ fallbackCopy(); });
+    else fallbackCopy();
+    function fallbackCopy() {
+      var ta = document.createElement("textarea"); ta.value = location.href;
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta); done();
+    }
+  };
+  var d = document.getElementById("wvDismiss");
+  if (d) d.onclick = function() { b.style.display = "none"; };
+})();
 /* PWA: register service worker for offline + installability */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));

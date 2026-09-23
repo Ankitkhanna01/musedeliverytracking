@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d9488">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Deliveries">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Delivery Tracker</title>
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -125,7 +133,7 @@
 <header>
   <h1>Delivery Tracker</h1>
   <div class="date" id="dateLine"></div>
-  <div class="pill"><span class="dot" id="gpsDot"></span><span id="gpsText">Checking GPS…</span></div>
+  <div class="pill" id="gpsPill" style="cursor:pointer" title="Tap to test GPS"><span class="dot" id="gpsDot"></span><span id="gpsText">Checking GPS…</span></div>
   <button id="lockBtn" class="lockbtn">🔒 Lock</button>
 </header>
 <main>
@@ -407,6 +415,21 @@ document.getElementById("fileInput").onchange = e => {
 };
 
 render();
+</script>
+
+<script>
+/* Tap the GPS pill to test / trigger the permission prompt */
+document.getElementById("gpsPill").addEventListener("click", () => {
+  setGps("busy", "Asking for location…");
+  getGPS().then(pos => {
+    const c = pos.coords;
+    setGps("ok", "GPS ready (" + c.latitude.toFixed(4) + ", " + c.longitude.toFixed(4) + ")");
+  }).catch(gpsErr ? (e => setGps("bad", gpsErr(e))) : (() => setGps("bad", "GPS failed")));
+});
+/* PWA: register service worker for offline + installability */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
 </script>
 </body>
 </html>

@@ -1,0 +1,380 @@
+[
+ {
+  "id": "b098e892-aea0-4dac-9a44-7c2e7a5070d1",
+  "date": "2026-06-02",
+  "vendor_name": "THRIFTY FOODS BROADMEAD",
+  "amount": 25.41,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Avocado Hass Organic (x5) - $19.95\nBananas Organic (2.085 kg) - $5.46"
+ },
+ {
+  "id": "71e1951e-f0dc-4397-8c77-6073b86e93c7",
+  "date": "2026-05-20",
+  "vendor_name": "Esso",
+  "amount": 114.07,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": "MOBIL 1 (53.079 l) - $114.07"
+ },
+ {
+  "id": "4c8258b3-49db-40d9-ba0a-18b2e6c0f748",
+  "date": "2026-05-04",
+  "vendor_name": "7-ELEVEN",
+  "amount": 115.83,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": "GAS (55.069 l) - $115.83\nGST (5.52 l) - $5.52"
+ },
+ {
+  "id": "82423210-f8fd-4e19-8a6a-fbb95b9afd71",
+  "date": "2026-03-03",
+  "vendor_name": "7-Eleven",
+  "amount": 100.29,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": "Fuel (57.016 l) - $1.76"
+ },
+ {
+  "id": "eaa1fc76-dca9-489f-a5af-6110851c6b28",
+  "date": "2026-02-28",
+  "vendor_name": "Big Way Hot Pot Victoria",
+  "amount": 38.17,
+  "category": "restaurant",
+  "purpose": "personal",
+  "notes": "Medium Vegan Broth (x1) - $8.00\nMushroom (mush 2) (0.706 kg) - $6.67\nRice (x1) - $0.53"
+ },
+ {
+  "id": "ac8cde0b-1691-4051-9502-03257b072a4d",
+  "date": "2026-02-27",
+  "vendor_name": "AGODA.COM BATUR KENC",
+  "amount": 15.78,
+  "category": "shopping",
+  "purpose": "personal",
+  "notes": "Added from statement (CIBC)"
+ },
+ {
+  "id": "70a5425d-9159-4297-ba82-5a75b6012986",
+  "date": "2026-02-23",
+  "vendor_name": "Thrifty Foods Cloverdale",
+  "amount": 20.48,
+  "category": "grocery",
+  "purpose": "personal",
+  "notes": "Bread Whole Grain Pro (x1) - $5.49\nSunflower Seeds (x1) - $14.99"
+ },
+ {
+  "id": "a4a76892-c576-4b43-bb66-8167c4df65af",
+  "date": "2026-02-20",
+  "vendor_name": "Thrifty Foods",
+  "amount": 15.57,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Organic Vanilla (x1) - $2.00\nKraft Dinner Mac  Cheese (x1) - $3.49\nPresidents Choice Organic Bananas (1.52 kg) - $7.98\nPC Organic Large Eggs (x2) - $2.62\nHellmanns Mayonnaise (x1) - $3.98"
+ },
+ {
+  "id": "058b64e7-d509-4c3f-8758-60bbae1d5408",
+  "date": "2026-02-15",
+  "vendor_name": "Kuku's Takeout & Deliver",
+  "amount": 36.59,
+  "category": "restaurant",
+  "purpose": "personal",
+  "notes": "Amount: $34.59, Tip: $2.00"
+ },
+ {
+  "id": "4a139cb4-8d4e-46c0-be9a-30fe1f689e10",
+  "date": "2026-02-13",
+  "vendor_name": "Thrifty Foods Broadmead",
+  "amount": 8.7,
+  "category": "grocery",
+  "purpose": "personal",
+  "notes": "Lindt Excellence 70% (x1) - $8.29\nGST: $0.41"
+ },
+ {
+  "id": "35795c20-9021-426f-9350-5e8b33036d02",
+  "date": "2026-02-12",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 4.69,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Shower Cleaner Daily (x1) - $4.19"
+ },
+ {
+  "id": "7244b31a-aaaa-4ce8-8f40-fb81dff08e2f",
+  "date": "2026-02-12",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 22.7,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Seasoning Lemon Sque (x1) - $1.99\nBread Whle Grain Pro (x1) - $5.49\nOat Beverage Orig (x1) - $3.99\n+EHC (x1) - $0.02\n+Deposit (x1) - $0.10\nAvocado Hass Organic (x1) - $3.99\nBananas Organic (2.61 kg) - $6.84\nTF Paper Bag (x1) - $0.25"
+ },
+ {
+  "id": "57b2a909-624d-49b8-b9ae-d1db7d5e5f87",
+  "date": "2026-02-11",
+  "vendor_name": "Walmart",
+  "amount": 91.95,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "GV BLEUETS (x1) - $14.08\nGV SL STBWY (x1) - $14.08\nGV CALIFORNI (x1) - $6.48\nGV CALIFORNI (x1) - $6.48\nVP CSHEW W/S (x1) - $11.97\nVP CSHEW W/S (x1) - $11.97\nNIZ 120ML SH (x1) - $19.97\nSHOPPING BAG (x1) - $2.97"
+ },
+ {
+  "id": "7237469b-d6a8-4399-8da2-ad6d30eb9435",
+  "date": "2026-02-10",
+  "vendor_name": "ESSO 7-ELEVEN",
+  "amount": 100,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": "FUEL Pump 2 PREPAID EREG (59.206 l) - $100.00"
+ },
+ {
+  "id": "7a2aba0f-2114-4d2c-b0db-e5dbe454b36b",
+  "date": "2026-02-08",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 29.78,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Oat Bev 0 Sgr Orig (x1) - $3.99\n+EHC (x1) - $0.02\n+Deposit (x1) - $0.10\nOat Bev 0 Sgr Orig (x1) - $3.99\n+EHC (x1) - $0.02\n+Deposit (x1) - $0.10\nOat Bev 0 Sgr Orig (x1) - $3.99\n+EHC (x1) - $0.02\n+Deposit (x1) - $0.10\nTofu SR SGN X Firm (x1) - $3.49\nTofu SR SGN X Firm (x1) - $3.49\nTofu SR SGN X Firm (x1) - $3.49\nTofu SR SGN X Firm (x1) - $3.49\nTofu SR SGN X Firm (x1) - $3.49\nProduce Department Offer (x1) - $5.00"
+ },
+ {
+  "id": "ef13eefa-b23b-4ecb-81ec-8310986d12f5",
+  "date": "2026-02-07",
+  "vendor_name": "Bin 4 Burger Lounge",
+  "amount": 44.1,
+  "category": "restaurant",
+  "purpose": "business",
+  "notes": "1 Bin 19 - The Big Dipper (x1) - $12.38\nSignature Bun (x1) - $0.00\nHALF  HALF Yam Fries/ Strawberry Goat Cheese Salad (x1) - $3.00\nGochujang Thai Honey Hot Sauce (x1) - $0.00\n1oz BIN 4 CAESAR (x1) - $10.00\n1 Bin 36 - Mr. Bean 2.0 (x1) - $11.13\nVegan Bun (x1) - $0.00\nHouse Fries (x1) - $0.00\nVegan Red Pepper Aioli (x1) - $0.00\n1 HOUSE LEMONADE (x1) - $4.25"
+ },
+ {
+  "id": "1d654f03-b048-4df8-9838-87245acfaad7",
+  "date": "2026-02-01",
+  "vendor_name": "Walmart",
+  "amount": 93.07,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "VP CSHEW W/S (x1) - $12.00\nXL PNTS W/S (x1) - $5.00\nVP CSHEW W/S (x1) - $12.00\nGV SPONGE CL (x1) - $7.97\nGV SPONGE CL (x1) - $7.97\nGV BLEUETS (x1) - $14.08\nGV SL STBWY (x1) - $14.08\nGV CALIFORNI (x1) - $6.28\nSR EF TOFU (x1) - $3.44\nSR EF TOFU (x1) - $3.44\nSR EF TOFU (x1) - $3.44"
+ },
+ {
+  "id": "f601e514-ef02-43d0-90db-bfc2e13074d3",
+  "date": "2026-01-30",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 5.6,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "39495116-4c4b-4d92-8945-4ebaf6b81886",
+  "date": "2026-01-28",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 22.37,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "40ba4832-e207-4443-be8e-52b67091341a",
+  "date": "2026-01-27",
+  "vendor_name": "Walmart",
+  "amount": 68.89,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "GV CALIFORNI (x1) - $6.48\nGV CALIFORNI (x1) - $6.48\nXL PNTS W/S (x1) - $5.00\nVP NAT PSTCH (x1) - $12.00\nVP CSHEW W/S (x1) - $12.00\nVP CSHEW W/S (x1) - $12.00\nVP NAT PSTCH (x1) - $12.00\nPAPER BAG (x1) - $0.25"
+ },
+ {
+  "id": "5afa2076-e300-4278-b4a7-322fc51ceecc",
+  "date": "2026-01-27",
+  "vendor_name": "PHARMASAVE",
+  "amount": 16.79,
+  "category": "medical",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "a676ac4f-abec-4e72-9095-95ac1fd6297a",
+  "date": "2026-01-27",
+  "vendor_name": "Thrifty Foods",
+  "amount": 15.67,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Oat Bev 0 Sgr Orig (x1) - $5.49\nEHC (x1) - $0.01\nDeposit (x1) - $0.10\nOat Bev 0 Sgr Orig (x1) - $5.49\nEHC (x1) - $0.01\nDeposit (x1) - $0.10\nComp Floss (x1) - $3.99"
+ },
+ {
+  "id": "05afe61a-509d-483a-8806-f104ff3bed82",
+  "date": "2026-01-26",
+  "vendor_name": "ESSO SMART STOP 3790",
+  "amount": 92.4,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": null
+ },
+ {
+  "id": "a50bce64-dea9-49ff-848f-db7a437aebba",
+  "date": "2026-01-25",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 9.54,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "418ed16f-3df0-431c-a7fe-a6e39950a927",
+  "date": "2026-01-23",
+  "vendor_name": "CINEPLEX",
+  "amount": 16.54,
+  "category": "entertainment",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "11480978-f182-40ba-84b8-172f2db580a3",
+  "date": "2026-01-22",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 45.46,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "3d8d4ed1-f7b2-4991-a2a4-9d84a2817d80",
+  "date": "2026-01-21",
+  "vendor_name": "ParkVictoria ",
+  "amount": 0.3,
+  "category": "transportation",
+  "purpose": "business",
+  "notes": "Parking for picking skip order"
+ },
+ {
+  "id": "86fece65-3254-4dfa-b956-f29f8fb5cb72",
+  "date": "2026-01-18",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 53.18,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "bb1abafb-6f31-4bf8-847e-2f3a866df137",
+  "date": "2026-01-17",
+  "vendor_name": "REAL CDN. SUPERSTORE",
+  "amount": 11.47,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "17d45cd8-99ed-4ce4-8ab3-0cfdaa7f9d05",
+  "date": "2026-01-17",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 87.95,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "713ededa-ae0a-48bb-800e-4f64f0ebba8f",
+  "date": "2026-01-16",
+  "vendor_name": "the COMMONS",
+  "amount": 54.95,
+  "category": "restaurant",
+  "purpose": "business",
+  "notes": "AVOCADO ROLL (x1) - $15.95\nFALAFEL BURGER (x1) - $19.95\nNAUGHTY HILDERGARD (x1) - $8.00\nHOUSE VODKA (x1) - $7.00\nGST (x1) - $2.55\nLIQUOR SST (x1) - $1.50"
+ },
+ {
+  "id": "552bbc03-73d6-4780-8750-c6520f9492f5",
+  "date": "2026-01-15",
+  "vendor_name": "ESSO 7-ELEVEN",
+  "amount": 90.2,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "875efea4-c622-4d61-ad3b-aa61dff09511",
+  "date": "2026-01-13",
+  "vendor_name": "WAL-MART",
+  "amount": 12.56,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "a459b85e-0ac2-4d93-b6f6-623e0b0bb635",
+  "date": "2026-01-13",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 32.35,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "27df894e-822e-428a-8108-df8e752f3637",
+  "date": "2026-01-11",
+  "vendor_name": "WAL-MART",
+  "amount": 94.01,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "0349a6ef-cb02-41b2-a3d7-1beb3feb9a03",
+  "date": "2026-01-08",
+  "vendor_name": "LONDON DRUGS",
+  "amount": 64.98,
+  "category": "medical",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "70adff5a-ec47-4d3f-b771-a3bca51e22a0",
+  "date": "2026-01-08",
+  "vendor_name": "SHOPPERS DRUG MART",
+  "amount": 89.99,
+  "category": "medical",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "5cb1a6f2-f87e-42e4-a04d-18bd641c56c4",
+  "date": "2026-01-06",
+  "vendor_name": "M.H. ALSHAYA CO.-VICTORIA DUBAI",
+  "amount": 78.67,
+  "category": "restaurant",
+  "purpose": "personal",
+  "notes": "Added from statement (CIBC)"
+ },
+ {
+  "id": "d3d6692b-ed07-4ea9-8e7a-f1bd93f20ae8",
+  "date": "2026-01-06",
+  "vendor_name": "ESSO 7-ELEVEN",
+  "amount": 85.23,
+  "category": "fuel",
+  "purpose": "business",
+  "notes": null
+ },
+ {
+  "id": "64563c25-3315-40da-902a-b41e0af0959d",
+  "date": "2026-01-06",
+  "vendor_name": "PHARMASAVE",
+  "amount": 32.54,
+  "category": "medical",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "5c3dd660-9a34-4629-97e2-4bb89dcca492",
+  "date": "2026-01-06",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 19.93,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ },
+ {
+  "id": "9b6a615b-40e4-407c-bf33-f6c43a549068",
+  "date": "2026-01-03",
+  "vendor_name": "THRIFTY FOODS",
+  "amount": 126.96,
+  "category": "grocery",
+  "purpose": "business",
+  "notes": "Added from statement"
+ }
+]

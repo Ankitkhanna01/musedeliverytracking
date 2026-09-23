@@ -1,8 +1,6 @@
-/* Delivery Tracker service worker — offline app shell */
-const CACHE = "dt-v4";
+/* Delivery Tracker service worker — offline app shell (v5) */
+const CACHE = "dt-v5";
 const ASSETS = [
-  "./",
-  "./index.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
@@ -19,11 +17,24 @@ self.addEventListener("activate", (e) => {
 });
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET" || !e.request.url.startsWith(self.location.origin)) return;
+  const url = new URL(e.request.url);
+  const isPage = e.request.mode === "navigate" || url.pathname.endsWith("index.html") || url.pathname === "/" || url.pathname.endsWith("/");
+  if (isPage) {
+    // network-first for the app itself: always get the latest code
+    e.respondWith(
+      fetch(e.request).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy));
+        return res;
+      }).catch(() => caches.match(e.request).then((hit) => hit || caches.match("./index.html")))
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then((hit) => hit || fetch(e.request).then((res) => {
       const copy = res.clone();
       caches.open(CACHE).then((c) => c.put(e.request, copy));
       return res;
-    }).catch(() => caches.match("./index.html")))
+    }))
   );
 });

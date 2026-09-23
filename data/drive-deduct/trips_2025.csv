@@ -1,0 +1,58 @@
+date,start_location,end_location,kilometres,category,start_time,end_time,purpose
+2025-12-20,"3420, 3420, Quadra Street, Saanich, British Columbia","1791, Barrie Road, Saanich, British Columbia",11.1,Business,16:17,16:33,Work
+2025-12-19,"584, Burnside Road East, Victoria, British Columbia","3420, Quadra Street, Saanich, British Columbia",1.9,Business,22:33,22:43,Home
+2025-12-19,"Bin 4 Burger Lounge, Bin 4 Burger Lounge, Maple Street, Saanich","584, Burnside Road East, Victoria, British Columbia",1.2,Business,22:27,22:33,Dropping off delivery
+2025-12-19,"Admirals Road, Admirals Road, View Royal","Bin 4 Burger Lounge, Maple Street, Saanich",6.5,Business,22:16,22:26,Picking up food
+2025-12-19,"319, Skinner Street, Victoria, British Columbia","Admirals Road, Admirals Road, View Royal",4.7,Business,22:05,22:14,Dropping off delivery
+2025-12-19,"Subway, Subway, Dunedin Street, Victoria","319, Skinner Street, Victoria, British Columbia",1.5,Business,21:57,22:05,Dropping off delivery
+2025-12-19,"2950, Douglas Street, Victoria, British Columbia","Subway, Dunedin Street, Victoria",0.8,Business,21:51,21:57,Picking up food
+2025-12-19,"3811, Rowland Avenue, Saanich, British Columbia","3005, Douglas Street, Victoria, British Columbia",2.9,Business,21:40,21:49,Picking up food
+2025-12-19,"Subway, Subway, Douglas Street, Saanich","3811, Rowland Avenue, Saanich, British Columbia",1.1,Business,21:26,21:40,Dropping off delivery
+2025-12-19,"265, 265, 265 Cadillac Avenue, Saanich","Subway, Douglas Street, Saanich",1.5,Business,21:21,21:26,Picking up food
+2025-12-19,"Liquor Co 1977, Liquor Co 1977, Tillicum Road, Saanich","265, 265 Cadillac Avenue, Saanich",1.3,Business,21:13,21:21,Dropping off delivery
+2025-12-19,"363, 363, 363 Ker Avenue, Saanich","Liquor Co 1977, Tillicum Road, Saanich",0.6,Business,21:08,21:12,Picking up food
+2025-12-19,"103, 103, Gorge Road East, Victoria, British Columbia","363, 363 Ker Avenue, Saanich",2.2,Business,21:01,21:07,Dropping off delivery
+2025-12-19,"Red Robin, Red Robin, 800 Tolmie Avenue, Saanich","103, Gorge Road East, Victoria, British Columbia",2.5,Business,20:46,21:01,Dropping off delivery
+2025-12-19,"Jade Fountain Restaurant, Jade Fountain Restaurant, Douglas Street, Saanich","Red Robin, 800 Tolmie Avenue, Saanich",0.9,Business,20:41,20:46,Picking up food
+2025-12-19,"3150, Jutland Road, Victoria, British Columbia","Jade Fountain Restaurant, Douglas Street, Saanich",1.2,Business,20:34,20:40,Picking up food
+2025-12-19,"McDonald's, McDonald's, 3465 Saanich Road, Saanich","3150, 3150 Jutland Road, Victoria",1.5,Business,20:27,20:34,Dropping off delivery
+2025-12-19,"715, Violet Avenue, Saanich, British Columbia","McDonald's, 3465 Saanich Road, Saanich",3.9,Business,20:16,20:26,Picking up food
+2025-12-19,"528, Meredith Crescent, Saanich, British Columbia","715, 715 Violet Avenue, Saanich",0.6,Business,20:09,20:15,Dropping off delivery
+2025-12-19,"Uptown Boulevard, Uptown Boulevard, Saanich, British Columbia","528, Meredith Crescent, Saanich, British Columbia",2.4,Business,19:55,20:09,Dropping off delivery
+2025-12-19,"Boston Pizza, 3510 Blanshard Street, Saanich","Uptown Boulevard, Saanich, British Columbia",0.5,Business,19:47,19:53,Picking up food
+2025-12-19,"Fit4less, Fit4less, Fit4less, 805 Cloverdale Ave, Victoria, BC V8X 2S9, Canada","Boston Pizza, 3510 Blanshard Street, Saanich",1.3,Business,19:36,19:47,Picking up food
+2025-12-17,"960, Inverness Road, Saanich, British Columbia","3420, Quadra Street, Saanich, British Columbia",0.4,Business,22:29,22:32,
+2025-12-17,"3991, Quadra Street, Saanich, British Columbia","960, Inverness Road, Saanich, British Columbia",2.3,Business,22:23,22:28,
+2025-12-17,"4027, Trafalgar Crescent, Saanich, British Columbia","3991, Quadra Street, Saanich, British Columbia",2.6,Business,22:15,22:23,
+2025-12-17,"Culduthel Road, Saanich, British Columbia","4031, Trafalgar Crescent, Saanich, British Columbia",2.2,Business,22:08,22:13,
+2025-12-17,"3460, Saanich Road, Saanich, British Columbia","Douglas Street, Saanich, British Columbia",1.3,Business,22:04,22:06,
+2025-12-17,"3991, Quadra Street, Saanich, British Columbia","3460, Saanich Road, Saanich, British Columbia",2.1,Business,20:55,21:02,
+2025-12-17,"975, McKenzie Avenue, Saanich, British Columbia","McKenzie Avenue, Saanich, British Columbia",2.1,Business,20:41,20:44,
+2025-12-17,"Borden Street, Saanich, British Columbia","971, McKenzie Avenue, Saanich, British Columbia",1.2,Business,20:35,20:39,
+2025-12-17,"964, McKenzie Avenue, Saanich, British Columbia","Borden Street, Saanich, British Columbia",1.3,Business,20:29,20:33,
+2025-12-17,"Uptown Boulevard, Saanich, British Columbia","964, McKenzie Avenue, Saanich, British Columbia",3.1,Business,20:20,20:29,
+2025-12-17,"Oak Street, Saanich, British Columbia","Uptown Boulevard, Saanich, British Columbia",0.3,Business,20:13,20:17,
+2025-12-17,"551, Ker Avenue, Saanich, British Columbia","McDonald's, 3465 Saanich Road, Saanich",4.0,Business,20:03,20:12,
+2025-12-17,"Uptown Boulevard, Saanich, British Columbia","552, Ker Avenue, Saanich, British Columbia",3.3,Business,19:47,20:00,
+2025-12-17,"Fit4less, 805 Cloverdale Ave, Victoria, BC V8X 2S9, Canada","3460, Saanich Road, Saanich, British Columbia",0.8,Business,19:39,19:42,
+2025-12-16,"1461, Blanshard Street, Victoria, British Columbia","3420, Quadra Street, Saanich, British Columbia",4.0,Business,22:37,22:43,
+2025-12-16,"3277, Quadra Street, Saanich, British Columbia","1420, Broad Street, Victoria, British Columbia",3.5,Business,22:22,22:33,
+2025-12-16,"3749, Shelbourne Street, Saanich, British Columbia","3277, Quadra Street, Saanich, British Columbia",4.1,Business,22:18,22:20,
+2025-12-16,"3933, Ansell Road, Saanich, British Columbia","3749, Shelbourne Street, Saanich, British Columbia",1.1,Business,22:00,22:11,
+2025-12-16,"2508, Estevan Avenue, Oak Bay, British Columbia","3933, Ansell Road, Saanich, British Columbia",4.6,Business,21:43,21:57,
+2025-12-16,"1175, Beach Drive, Oak Bay, British Columbia","Estevan Avenue, Oak Bay, British Columbia",2.5,Business,21:32,21:43,
+2025-12-16,"1150, Cook Street, Victoria, British Columbia","1175, Beach Drive, Oak Bay, British Columbia",5.5,Business,21:14,21:24,
+2025-12-16,"Gorge Road East, Victoria, British Columbia","1039, View Street, Victoria, British Columbia",2.6,Business,21:01,21:10,
+2025-12-16,"Douglas Street, Saanich, British Columbia","2852, Douglas Street, Victoria, British Columbia",2.0,Business,20:57,21:00,
+2025-12-16,"369, Tyee Road, Victoria, British Columbia","Douglas Street, Saanich, British Columbia",3.2,Business,20:46,20:56,
+2025-12-16,"Wilson Street, Victoria, British Columbia","363, Tyee Road, Victoria, British Columbia",1.4,Business,20:41,20:45,
+2025-12-16,"Craigflower Road, Esquimalt, British Columbia","Wilson Street, Victoria, British Columbia",3.1,Business,20:31,20:39,
+2025-12-16,"Craigflower Road, Esquimalt, British Columbia","Glengarry Place, Esquimalt, British Columbia",1.0,Business,20:21,20:26,
+2025-12-16,"Uptown Boulevard, Saanich, British Columbia","Craigflower Road, Esquimalt, British Columbia",4.2,Business,20:10,20:19,
+2025-12-16,"942, Tattersall Drive, Saanich, British Columbia","Uptown Boulevard, Saanich, British Columbia",1.0,Business,20:04,20:08,
+2025-12-16,"Douglas Street, Saanich, British Columbia","942, Tattersall Drive, Saanich, British Columbia",1.1,Business,19:53,19:57,
+2025-12-16,"Oak Street, Saanich, British Columbia","Douglas Street, Saanich, British Columbia",0.4,Business,19:49,19:51,
+2025-12-16,"871, Darwin Avenue, Saanich, British Columbia","Oak Street, Saanich, British Columbia",0.6,Business,19:42,19:47,
+2025-12-16,"3147, Douglas Street, Victoria, British Columbia","871, Darwin Avenue, Saanich, British Columbia",1.6,Business,19:34,19:39,
+2025-12-16,"Oak Street, Saanich, British Columbia","3147, Douglas Street, Victoria, British Columbia",0.4,Business,19:23,19:26,
+2025-12-14,3420 quadra street victoria,3420 quadra street victoria,65.0,Business,17:22,22:30,

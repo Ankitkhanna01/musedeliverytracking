@@ -1,0 +1,572 @@
+[
+ {
+  "date": "2025-12-20",
+  "start_location": "3420, 3420, Quadra Street, Saanich, British Columbia",
+  "end_location": "1791, Barrie Road, Saanich, British Columbia",
+  "kilometres": 11.1,
+  "category": "Business",
+  "start_time": "16:17",
+  "end_time": "16:33",
+  "purpose": "Work"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "584, Burnside Road East, Victoria, British Columbia",
+  "end_location": "3420, Quadra Street, Saanich, British Columbia",
+  "kilometres": 1.9,
+  "category": "Business",
+  "start_time": "22:33",
+  "end_time": "22:43",
+  "purpose": "Home"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Bin 4 Burger Lounge, Bin 4 Burger Lounge, Maple Street, Saanich",
+  "end_location": "584, Burnside Road East, Victoria, British Columbia",
+  "kilometres": 1.2,
+  "category": "Business",
+  "start_time": "22:27",
+  "end_time": "22:33",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Admirals Road, Admirals Road, View Royal",
+  "end_location": "Bin 4 Burger Lounge, Maple Street, Saanich",
+  "kilometres": 6.5,
+  "category": "Business",
+  "start_time": "22:16",
+  "end_time": "22:26",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "319, Skinner Street, Victoria, British Columbia",
+  "end_location": "Admirals Road, Admirals Road, View Royal",
+  "kilometres": 4.7,
+  "category": "Business",
+  "start_time": "22:05",
+  "end_time": "22:14",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Subway, Subway, Dunedin Street, Victoria",
+  "end_location": "319, Skinner Street, Victoria, British Columbia",
+  "kilometres": 1.5,
+  "category": "Business",
+  "start_time": "21:57",
+  "end_time": "22:05",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "2950, Douglas Street, Victoria, British Columbia",
+  "end_location": "Subway, Dunedin Street, Victoria",
+  "kilometres": 0.8,
+  "category": "Business",
+  "start_time": "21:51",
+  "end_time": "21:57",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "3811, Rowland Avenue, Saanich, British Columbia",
+  "end_location": "3005, Douglas Street, Victoria, British Columbia",
+  "kilometres": 2.9,
+  "category": "Business",
+  "start_time": "21:40",
+  "end_time": "21:49",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Subway, Subway, Douglas Street, Saanich",
+  "end_location": "3811, Rowland Avenue, Saanich, British Columbia",
+  "kilometres": 1.1,
+  "category": "Business",
+  "start_time": "21:26",
+  "end_time": "21:40",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "265, 265, 265 Cadillac Avenue, Saanich",
+  "end_location": "Subway, Douglas Street, Saanich",
+  "kilometres": 1.5,
+  "category": "Business",
+  "start_time": "21:21",
+  "end_time": "21:26",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Liquor Co 1977, Liquor Co 1977, Tillicum Road, Saanich",
+  "end_location": "265, 265 Cadillac Avenue, Saanich",
+  "kilometres": 1.3,
+  "category": "Business",
+  "start_time": "21:13",
+  "end_time": "21:21",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "363, 363, 363 Ker Avenue, Saanich",
+  "end_location": "Liquor Co 1977, Tillicum Road, Saanich",
+  "kilometres": 0.6,
+  "category": "Business",
+  "start_time": "21:08",
+  "end_time": "21:12",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "103, 103, Gorge Road East, Victoria, British Columbia",
+  "end_location": "363, 363 Ker Avenue, Saanich",
+  "kilometres": 2.2,
+  "category": "Business",
+  "start_time": "21:01",
+  "end_time": "21:07",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Red Robin, Red Robin, 800 Tolmie Avenue, Saanich",
+  "end_location": "103, Gorge Road East, Victoria, British Columbia",
+  "kilometres": 2.5,
+  "category": "Business",
+  "start_time": "20:46",
+  "end_time": "21:01",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Jade Fountain Restaurant, Jade Fountain Restaurant, Douglas Street, Saanich",
+  "end_location": "Red Robin, 800 Tolmie Avenue, Saanich",
+  "kilometres": 0.9,
+  "category": "Business",
+  "start_time": "20:41",
+  "end_time": "20:46",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "3150, Jutland Road, Victoria, British Columbia",
+  "end_location": "Jade Fountain Restaurant, Douglas Street, Saanich",
+  "kilometres": 1.2,
+  "category": "Business",
+  "start_time": "20:34",
+  "end_time": "20:40",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "McDonald's, McDonald's, 3465 Saanich Road, Saanich",
+  "end_location": "3150, 3150 Jutland Road, Victoria",
+  "kilometres": 1.5,
+  "category": "Business",
+  "start_time": "20:27",
+  "end_time": "20:34",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "715, Violet Avenue, Saanich, British Columbia",
+  "end_location": "McDonald's, 3465 Saanich Road, Saanich",
+  "kilometres": 3.9,
+  "category": "Business",
+  "start_time": "20:16",
+  "end_time": "20:26",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "528, Meredith Crescent, Saanich, British Columbia",
+  "end_location": "715, 715 Violet Avenue, Saanich",
+  "kilometres": 0.6,
+  "category": "Business",
+  "start_time": "20:09",
+  "end_time": "20:15",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Uptown Boulevard, Uptown Boulevard, Saanich, British Columbia",
+  "end_location": "528, Meredith Crescent, Saanich, British Columbia",
+  "kilometres": 2.4,
+  "category": "Business",
+  "start_time": "19:55",
+  "end_time": "20:09",
+  "purpose": "Dropping off delivery"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Boston Pizza, 3510 Blanshard Street, Saanich",
+  "end_location": "Uptown Boulevard, Saanich, British Columbia",
+  "kilometres": 0.5,
+  "category": "Business",
+  "start_time": "19:47",
+  "end_time": "19:53",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-19",
+  "start_location": "Fit4less, Fit4less, Fit4less, 805 Cloverdale Ave, Victoria, BC V8X 2S9, Canada",
+  "end_location": "Boston Pizza, 3510 Blanshard Street, Saanich",
+  "kilometres": 1.3,
+  "category": "Business",
+  "start_time": "19:36",
+  "end_time": "19:47",
+  "purpose": "Picking up food"
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "960, Inverness Road, Saanich, British Columbia",
+  "end_location": "3420, Quadra Street, Saanich, British Columbia",
+  "kilometres": 0.4,
+  "category": "Business",
+  "start_time": "22:29",
+  "end_time": "22:32",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "3991, Quadra Street, Saanich, British Columbia",
+  "end_location": "960, Inverness Road, Saanich, British Columbia",
+  "kilometres": 2.3,
+  "category": "Business",
+  "start_time": "22:23",
+  "end_time": "22:28",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "4027, Trafalgar Crescent, Saanich, British Columbia",
+  "end_location": "3991, Quadra Street, Saanich, British Columbia",
+  "kilometres": 2.6,
+  "category": "Business",
+  "start_time": "22:15",
+  "end_time": "22:23",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Culduthel Road, Saanich, British Columbia",
+  "end_location": "4031, Trafalgar Crescent, Saanich, British Columbia",
+  "kilometres": 2.2,
+  "category": "Business",
+  "start_time": "22:08",
+  "end_time": "22:13",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "3460, Saanich Road, Saanich, British Columbia",
+  "end_location": "Douglas Street, Saanich, British Columbia",
+  "kilometres": 1.3,
+  "category": "Business",
+  "start_time": "22:04",
+  "end_time": "22:06",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "3991, Quadra Street, Saanich, British Columbia",
+  "end_location": "3460, Saanich Road, Saanich, British Columbia",
+  "kilometres": 2.1,
+  "category": "Business",
+  "start_time": "20:55",
+  "end_time": "21:02",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "975, McKenzie Avenue, Saanich, British Columbia",
+  "end_location": "McKenzie Avenue, Saanich, British Columbia",
+  "kilometres": 2.1,
+  "category": "Business",
+  "start_time": "20:41",
+  "end_time": "20:44",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Borden Street, Saanich, British Columbia",
+  "end_location": "971, McKenzie Avenue, Saanich, British Columbia",
+  "kilometres": 1.2,
+  "category": "Business",
+  "start_time": "20:35",
+  "end_time": "20:39",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "964, McKenzie Avenue, Saanich, British Columbia",
+  "end_location": "Borden Street, Saanich, British Columbia",
+  "kilometres": 1.3,
+  "category": "Business",
+  "start_time": "20:29",
+  "end_time": "20:33",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Uptown Boulevard, Saanich, British Columbia",
+  "end_location": "964, McKenzie Avenue, Saanich, British Columbia",
+  "kilometres": 3.1,
+  "category": "Business",
+  "start_time": "20:20",
+  "end_time": "20:29",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Oak Street, Saanich, British Columbia",
+  "end_location": "Uptown Boulevard, Saanich, British Columbia",
+  "kilometres": 0.3,
+  "category": "Business",
+  "start_time": "20:13",
+  "end_time": "20:17",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "551, Ker Avenue, Saanich, British Columbia",
+  "end_location": "McDonald's, 3465 Saanich Road, Saanich",
+  "kilometres": 4.0,
+  "category": "Business",
+  "start_time": "20:03",
+  "end_time": "20:12",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Uptown Boulevard, Saanich, British Columbia",
+  "end_location": "552, Ker Avenue, Saanich, British Columbia",
+  "kilometres": 3.3,
+  "category": "Business",
+  "start_time": "19:47",
+  "end_time": "20:00",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-17",
+  "start_location": "Fit4less, 805 Cloverdale Ave, Victoria, BC V8X 2S9, Canada",
+  "end_location": "3460, Saanich Road, Saanich, British Columbia",
+  "kilometres": 0.8,
+  "category": "Business",
+  "start_time": "19:39",
+  "end_time": "19:42",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "1461, Blanshard Street, Victoria, British Columbia",
+  "end_location": "3420, Quadra Street, Saanich, British Columbia",
+  "kilometres": 4.0,
+  "category": "Business",
+  "start_time": "22:37",
+  "end_time": "22:43",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "3277, Quadra Street, Saanich, British Columbia",
+  "end_location": "1420, Broad Street, Victoria, British Columbia",
+  "kilometres": 3.5,
+  "category": "Business",
+  "start_time": "22:22",
+  "end_time": "22:33",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "3749, Shelbourne Street, Saanich, British Columbia",
+  "end_location": "3277, Quadra Street, Saanich, British Columbia",
+  "kilometres": 4.1,
+  "category": "Business",
+  "start_time": "22:18",
+  "end_time": "22:20",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "3933, Ansell Road, Saanich, British Columbia",
+  "end_location": "3749, Shelbourne Street, Saanich, British Columbia",
+  "kilometres": 1.1,
+  "category": "Business",
+  "start_time": "22:00",
+  "end_time": "22:11",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "2508, Estevan Avenue, Oak Bay, British Columbia",
+  "end_location": "3933, Ansell Road, Saanich, British Columbia",
+  "kilometres": 4.6,
+  "category": "Business",
+  "start_time": "21:43",
+  "end_time": "21:57",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "1175, Beach Drive, Oak Bay, British Columbia",
+  "end_location": "Estevan Avenue, Oak Bay, British Columbia",
+  "kilometres": 2.5,
+  "category": "Business",
+  "start_time": "21:32",
+  "end_time": "21:43",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "1150, Cook Street, Victoria, British Columbia",
+  "end_location": "1175, Beach Drive, Oak Bay, British Columbia",
+  "kilometres": 5.5,
+  "category": "Business",
+  "start_time": "21:14",
+  "end_time": "21:24",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Gorge Road East, Victoria, British Columbia",
+  "end_location": "1039, View Street, Victoria, British Columbia",
+  "kilometres": 2.6,
+  "category": "Business",
+  "start_time": "21:01",
+  "end_time": "21:10",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Douglas Street, Saanich, British Columbia",
+  "end_location": "2852, Douglas Street, Victoria, British Columbia",
+  "kilometres": 2.0,
+  "category": "Business",
+  "start_time": "20:57",
+  "end_time": "21:00",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "369, Tyee Road, Victoria, British Columbia",
+  "end_location": "Douglas Street, Saanich, British Columbia",
+  "kilometres": 3.2,
+  "category": "Business",
+  "start_time": "20:46",
+  "end_time": "20:56",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Wilson Street, Victoria, British Columbia",
+  "end_location": "363, Tyee Road, Victoria, British Columbia",
+  "kilometres": 1.4,
+  "category": "Business",
+  "start_time": "20:41",
+  "end_time": "20:45",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Craigflower Road, Esquimalt, British Columbia",
+  "end_location": "Wilson Street, Victoria, British Columbia",
+  "kilometres": 3.1,
+  "category": "Business",
+  "start_time": "20:31",
+  "end_time": "20:39",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Craigflower Road, Esquimalt, British Columbia",
+  "end_location": "Glengarry Place, Esquimalt, British Columbia",
+  "kilometres": 1.0,
+  "category": "Business",
+  "start_time": "20:21",
+  "end_time": "20:26",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Uptown Boulevard, Saanich, British Columbia",
+  "end_location": "Craigflower Road, Esquimalt, British Columbia",
+  "kilometres": 4.2,
+  "category": "Business",
+  "start_time": "20:10",
+  "end_time": "20:19",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "942, Tattersall Drive, Saanich, British Columbia",
+  "end_location": "Uptown Boulevard, Saanich, British Columbia",
+  "kilometres": 1.0,
+  "category": "Business",
+  "start_time": "20:04",
+  "end_time": "20:08",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Douglas Street, Saanich, British Columbia",
+  "end_location": "942, Tattersall Drive, Saanich, British Columbia",
+  "kilometres": 1.1,
+  "category": "Business",
+  "start_time": "19:53",
+  "end_time": "19:57",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Oak Street, Saanich, British Columbia",
+  "end_location": "Douglas Street, Saanich, British Columbia",
+  "kilometres": 0.4,
+  "category": "Business",
+  "start_time": "19:49",
+  "end_time": "19:51",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "871, Darwin Avenue, Saanich, British Columbia",
+  "end_location": "Oak Street, Saanich, British Columbia",
+  "kilometres": 0.6,
+  "category": "Business",
+  "start_time": "19:42",
+  "end_time": "19:47",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "3147, Douglas Street, Victoria, British Columbia",
+  "end_location": "871, Darwin Avenue, Saanich, British Columbia",
+  "kilometres": 1.6,
+  "category": "Business",
+  "start_time": "19:34",
+  "end_time": "19:39",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-16",
+  "start_location": "Oak Street, Saanich, British Columbia",
+  "end_location": "3147, Douglas Street, Victoria, British Columbia",
+  "kilometres": 0.4,
+  "category": "Business",
+  "start_time": "19:23",
+  "end_time": "19:26",
+  "purpose": ""
+ },
+ {
+  "date": "2025-12-14",
+  "start_location": "3420 quadra street victoria",
+  "end_location": "3420 quadra street victoria",
+  "kilometres": 65.0,
+  "category": "Business",
+  "start_time": "17:22",
+  "end_time": "22:30",
+  "purpose": ""
+ }
+]

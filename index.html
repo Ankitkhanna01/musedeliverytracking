@@ -533,5 +533,32 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 </script>
+
+<script>
+/* In-app update check: compares this build against version.json on the server.
+   When a new version is deployed, shows a banner instead of silently changing. */
+(function(){
+  var VER = "2026.09.23-1";
+  async function check(){
+    try{
+      var r = await fetch("version.json?_=" + Date.now());
+      if(!r.ok) return;
+      var j = await r.json();
+      if(j.version && j.version !== VER) show(j.version);
+    }catch(e){}
+  }
+  function show(v){
+    if(document.getElementById("updBanner")) return;
+    var b = document.createElement("div");
+    b.id = "updBanner";
+    b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:200;background:#0d9488;color:#fff;padding:13px 16px;font-size:14px;font-weight:700;text-align:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35)";
+    b.textContent = "\u2B06 New version available (" + v + ") \u2014 tap to update";
+    b.onclick = function(){ location.reload(); };
+    document.body.prepend(b);
+  }
+  window.addEventListener("load", function(){ setTimeout(check, 4000); });
+  setInterval(check, 15*60*1000);
+})();
+</script>
 </body>
 </html>

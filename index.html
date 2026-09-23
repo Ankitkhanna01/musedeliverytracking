@@ -321,6 +321,18 @@ function closeSheet() { modal.classList.remove("open"); editingId = null; pendin
 document.getElementById("cancelBtn").onclick = closeSheet;
 modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
 
+async function reverseGeocode(lat, lng) {
+  try {
+    const r = await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng + "&zoom=18&addressdetails=1", { headers: { "Accept": "application/json" } });
+    const j = await r.json();
+    const a = j.address || {};
+    const num = a.house_number ? a.house_number + " " : "";
+    const road = a.road || a.pedestrian || a.footway || a.neighbourhood || "";
+    const city = a.city || a.town || a.village || a.suburb || "";
+    const s = (num + road + (city ? ", " + city : "")).trim().replace(/^,/, "").trim();
+    return s || j.display_name || "";
+  } catch (e) { return ""; }
+}
 document.getElementById("reachBtn").onclick = async () => {
   const btn = document.getElementById("reachBtn");
   btn.disabled = true; btn.textContent = "Getting GPS…";
@@ -328,7 +340,9 @@ document.getElementById("reachBtn").onclick = async () => {
   try {
     const pos = await getGPS();
     setGps("ok","GPS ready");
-    openSheet({ pos });
+    btn.textContent = "Looking up address…";
+    const address = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
+    openSheet({ pos, address });
   } catch(e) {
     setGps("bad","GPS blocked — allow location for Chrome");
     openSheet({ gpsError: gpsErr(e) });

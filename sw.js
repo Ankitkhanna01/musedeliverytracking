@@ -1,5 +1,5 @@
-/* Delivery Tracker service worker — offline app shell (v5) */
-const CACHE = "dt-v8";
+/* Delivery Tracker service worker — offline app shell (v6) */
+const CACHE = "dt-v9";
 const ASSETS = [
   "./manifest.json",
   "./icon-192.png",
@@ -18,9 +18,10 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET" || !e.request.url.startsWith(self.location.origin)) return;
   const url = new URL(e.request.url);
-  const isPage = e.request.mode === "navigate" || url.pathname.endsWith("index.html") || url.pathname === "/" || url.pathname.endsWith("/");
+  const isVersion = url.pathname.endsWith("/version.json");
+  const isPage = isVersion || e.request.mode === "navigate" || url.pathname.endsWith("index.html") || url.pathname === "/" || url.pathname.endsWith("/");
   if (isPage) {
-    // network-first for the app itself: always get the latest code
+    // network-first for the app itself and the version stamp: always get the latest
     e.respondWith(
       fetch(e.request).then((res) => {
         const copy = res.clone();

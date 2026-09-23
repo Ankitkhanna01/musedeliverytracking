@@ -215,6 +215,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function fmtTime(ts){const d=new Date(ts);let h=d.getHours(),m=String(d.getMinutes()).padStart(2,"0");const ap=h>=12?"pm":"am";h=h%12||12;return h+":"+m+" "+ap;}
 function fmtDur(ms){const m=Math.round(ms/60000);if(m<1)return"<1 min";if(m<60)return m+" min";const h=Math.floor(m/60);return h+"h "+(m%60)+"m";}
+const pl=(n,w)=>n+" "+w+(n===1?"":"s");
 function dayKey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function fmtDay(k){const d=new Date(k+"T12:00:00");return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});}
 function havKm(a,b,c,d){const R=6371,t=Math.PI/180;const s=Math.sin((c-a)*t/2)**2+Math.cos(a*t)*Math.cos(c*t)*Math.sin((d-b)*t/2)**2;return 2*R*Math.asin(Math.sqrt(s));}
@@ -450,7 +451,7 @@ function renderTrips(){
   keys.forEach(k=>{const{legs,stops}=dayLegsStops(k),manual=(day(k).manual||[]).slice().sort((a,b)=>a.time-b.time);
     if(!legs.length&&!manual.length)return;
     const trips=groupTrips(legs),km=trips.reduce((a,t)=>a+t.km,0);
-    h+=`<div class="dayhead"><div class="d">${fmtDay(k)}</div><div class="s">${manual.length} stops · ${trips.length} trips · ${km.toFixed(1)} km</div></div>`;
+    h+=`<div class="dayhead"><div class="d">${fmtDay(k)}</div><div class="s">${pl(manual.length,"stop")} · ${pl(trips.length,"trip")} · ${km.toFixed(1)} km</div></div>`;
     trips.forEach(t=>{h+=tripRow(t,routeFor(t,stops));});
     manual.forEach(s=>{h+=manualRow(s);});});
   $("tripsNew").innerHTML=h||`<div class="empty">No trips yet.<br>Start a shift on the Track tab.</div>`;
@@ -463,7 +464,7 @@ function renderTodayTrips(){const k=dayKey(),{legs,stops}=dayLegsStops(k),trips=
   items.sort((a,b)=>a.t0-b.t0);
   const km=trips.reduce((a,t)=>a+t.km,0);
   $("todayTrips").innerHTML=(items.length)
-    ?`<div class="dayhead" style="margin-top:2px"><div class="d">Today</div><div class="s">${manual.length} stops · ${trips.length} auto trips · ${km.toFixed(1)} km</div></div>`+items.map(i=>i.h).join("")
+    ?`<div class="dayhead" style="margin-top:2px"><div class="d">Today</div><div class="s">${pl(manual.length,"stop")} · ${pl(trips.length,"auto trip")} · ${km.toFixed(1)} km</div></div>`+items.map(i=>i.h).join("")
     :`<div class="empty">Nothing yet today.<br>Tap "Reached there" at each stop, or start a shift.</div>`;}
 document.querySelectorAll("#tripSeg button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("#tripSeg button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
@@ -521,7 +522,7 @@ if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.ser
 
 <script>
 (function(){
-  var VER = "2026.09.23-3";
+  var VER = "2026.09.23-4";
   async function check(){
     try{
       var r = await fetch("version.json?_=" + Date.now());

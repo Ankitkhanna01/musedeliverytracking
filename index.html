@@ -342,7 +342,10 @@ modal.addEventListener("click", e => { if (e.target === modal) closeSheet(); });
 
 async function reverseGeocode(lat, lng) {
   try {
-    const r = await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng + "&zoom=18&addressdetails=1", { headers: { "Accept": "application/json" } });
+    const ctl = new AbortController();
+    const to = setTimeout(() => ctl.abort(), 8000);
+    const r = await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng + "&zoom=18&addressdetails=1", { headers: { "Accept": "application/json" }, signal: ctl.signal });
+    clearTimeout(to);
     const j = await r.json();
     const a = j.address || {};
     const num = a.house_number ? a.house_number + " " : "";
@@ -421,7 +424,9 @@ function stopHTML(s) {
   return `<div class="stop"><div><div class="t">${fmtTime(s.time)}</div><div class="name">${esc(s.name)}</div>` +
     (s.address ? `<div class="addr">${esc(s.address)}</div>` : "") +
     `<div class="meta">${s.lat!=null ? s.lat+", "+s.lng+" · " : ""}${s.odo ? "odo "+esc(s.odo)+" · " : ""}${esc(s.notes||"")}</div></div>` +
-    `<div class="acts"><button class="iconbtn" onclick="editStop('${s.id}')">✏️</button><button class="iconbtn" onclick="delStop('${s.id}')">🗑</button></div></div>`;
+    `<div class="acts">` +
+    (s.lat!=null ? `<a class="iconbtn" style="text-decoration:none;display:inline-block;" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}" title="Open in Google Maps">🗺️</a>` : ``) +
+    `<button class="iconbtn" onclick="editStop('${s.id}')">✏️</button><button class="iconbtn" onclick="delStop('${s.id}')">🗑</button></div></div>`;
 }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 window.editStop = id => { const s = day().stops.find(x=>x.id===id); openSheet({ id, name:s.name, address:s.address, odo:s.odo, notes:s.notes, pos: s.lat!=null?{coords:{latitude:s.lat,longitude:s.lng,accuracy:0}}:null }); };
